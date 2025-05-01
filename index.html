@@ -2,6 +2,37 @@
 <html>
   <head>
     <title>Login / Dashboard</title>
+    <script src="auth.js"></script>
+     <script>
+    window.onload = function () {
+      checkLogin(function(email) {
+        // If logged in, show dashboard
+        showDashboard(email);
+      });
+
+      // Handle form submission for login
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        login(email, password, function(loggedInEmail) {
+          showDashboard(loggedInEmail);
+        });
+      });
+    };
+
+    function showLogin() {
+      document.getElementById('loginSection').classList.remove('hidden');
+      document.getElementById('dashboardSection').classList.add('hidden');
+    }
+
+    function showDashboard(email) {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('userEmail').innerText = email;
+    }
+  </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
       /* Basic Styling */
@@ -194,32 +225,6 @@
 
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
-
-window.onload = function () {
-  const email = localStorage.getItem('email');
-  if (email) {
-    fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.loggedIn) {
-          showDashboard(email);
-        } else {
-          localStorage.removeItem('email');
-          showLogin();
-        }
-      })
-      .catch(() => showLogin());
-  } else {
-    showLogin();
-  }
-
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    login();
-  });
-};
-
 
 function login() {
   const email = document.getElementById('email').value;
