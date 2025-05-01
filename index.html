@@ -197,15 +197,29 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 
 window.onload = function () {
-  // Check session on load — not available with ContentService, so show login by default
-  showLogin();
+  const email = localStorage.getItem('email');
+  if (email) {
+    fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.loggedIn) {
+          showDashboard(email);
+        } else {
+          localStorage.removeItem('email');
+          showLogin();
+        }
+      })
+      .catch(() => showLogin());
+  } else {
+    showLogin();
+  }
 
-  // Attach submit event to the form
   document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     login();
   });
 };
+
 
 function login() {
   const email = document.getElementById('email').value;
@@ -227,7 +241,7 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
-        localStorage.setItem('email', email); // Store session for other pages
+        localStorage.setItem('email', response.email);
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
