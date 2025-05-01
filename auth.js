@@ -3,11 +3,15 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJ
 // Function to check if the user is logged in
 function checkLogin(callback) {
   const email = localStorage.getItem('email');
-  if (!email) {
+  const currentPage = window.location.pathname.split("/").pop(); // Get the current page name
+  
+  // If not logged in and the user is not on index.html, redirect to index.html
+  if (!email && currentPage !== 'index.html') {
     window.location.href = 'index.html';
     return;
   }
 
+  // If logged in, validate session with the backend
   fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
     .then(res => res.json())
     .then(data => {
@@ -15,12 +19,16 @@ function checkLogin(callback) {
         callback(data.email);
       } else {
         localStorage.removeItem('email');
-        window.location.href = 'index.html';
+        if (currentPage !== 'index.html') {
+          window.location.href = 'index.html';  // Redirect only if not on login page
+        }
       }
     })
     .catch(() => {
       localStorage.removeItem('email');
-      window.location.href = 'index.html';
+      if (currentPage !== 'index.html') {
+        window.location.href = 'index.html';  // Redirect only if not on login page
+      }
     });
 }
 
@@ -54,3 +62,4 @@ function logout(callback) {
       callback();
     });
 }
+
