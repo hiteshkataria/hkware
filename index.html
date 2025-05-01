@@ -227,6 +227,7 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
+        localStorage.setItem('email', email); // Store session for other pages
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
@@ -243,6 +244,7 @@ function login() {
 
 function logout() {
   const email = document.getElementById('userEmail').innerText;
+  localStorage.removeItem('email');
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
     .then(() => showLogin())
     .catch(() => showLogin()); // Fallback on error
