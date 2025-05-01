@@ -1,74 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Party Info</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        padding: 20px;
-      }
-      .container {
-        max-width: 600px;
-        margin: auto;
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      }
-      h2 {
-        text-align: center;
-      }
-      .logout-btn {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        float: right;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <button class="logout-btn" onclick="logout()">Logout</button>
-      <h2>Party Info Page</h2>
-      <p>Here you can manage party information.</p>
-    </div>
-
-    <script>
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
-      const userEmail = localStorage.getItem('email');
-
-      async function checkLogin() {
-        if (!userEmail) return redirectToLogin();
-
-        const res = await fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(userEmail)}`);
-        const data = await res.json();
-
-        if (!data.loggedIn) {
-          redirectToLogin();
-        }
-      }
-
-      function redirectToLogin() {
-        alert("Session expired or not logged in. Redirecting to login...");
-        localStorage.removeItem('email');
-        window.location.href = "index.html";
-      }
-
-      function logout() {
-        fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(userEmail)}`)
-          .then(() => {
-            localStorage.removeItem('email');
-            window.location.href = "index.html";
-          });
-      }
-
-      // On page load
-      checkLogin();
-    </script>
-  </body>
+<head>
+  <title>Party Information</title>
+  <script src="auth.js"></script>
+  <script>
+    window.onload = function () {
+      checkLogin(function(email) {
+        // Handle content once logged in
+        document.getElementById('userEmail').innerText = email;
+        // Display the content for this page
+        document.getElementById('partyInfoContent').classList.remove('hidden');
+      });
+    };
+  </script>
+</head>
+<body>
+  <!-- Party Info Page Content -->
+  <div id="partyInfoContent" class="hidden">
+    <h2>Welcome to Party Info Page</h2>
+    <p>Details about the party...</p>
+  </div>
+</body>
 </html>
