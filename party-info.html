@@ -27,20 +27,10 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-window.onload = function () {
-  const email = sessionStorage.getItem("userEmail");
-  if (!email) {
-    window.location.href = "index.html"; // redirect to login if not logged in
-  } else {
-    document.getElementById("userEmail").innerText = email;
-  }
-};
+<script src="script.js"></script>
+<script>
+  window.onload = initializeProtectedPage;
+</script>
 
-      function goToDashboard() {
-        window.location.href = "index.html"; // redirect back to main dashboard
-      }
-    </script>
   </body>
 </html>
