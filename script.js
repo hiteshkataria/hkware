@@ -1,36 +1,8 @@
 //const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_029PFILK1ogaEUJtQ_SF5TjIh0idUweeohWPtKRm0yKCtsVdseyibirYt9SxQut7gQ/exec';
 
-// Utility to verify session before showing protected content
-function verifySessionAndRun(callback) {
-  const email = localStorage.getItem('sessionEmail');
-  if (!email) return redirectToLogin();
-
-  fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
-    .then(res => res.json())
-    .then(response => {
-      if (response.loggedIn) {
-        callback(response.email);
-      } else {
-        localStorage.removeItem('sessionEmail');
-        redirectToLogin();
-      }
-    })
-    .catch(() => {
-      localStorage.removeItem('sessionEmail');
-      redirectToLogin();
-    });
-}
-
-function redirectToLogin() {
-  const redirectDiv = document.getElementById('loginRedirect');
-  if (redirectDiv) redirectDiv.classList.remove('hidden');
-  setTimeout(() => window.location.href = 'index.html', 1000);
-}
-
-
 window.onload = function () {
-
+  document.getElementById('loginSpinner').classList.add('hidden');
 
   // Check if session exists
   const email = localStorage.getItem('sessionEmail');
@@ -136,8 +108,7 @@ function openPage(pageName) {
   switch(pageName) {
     case 'partyInfo':
       title = 'Party Info';
-      window.location.href = pageName + '.html';
-
+      content = 'Here you can manage Party.';
       break;
     case 'purchase':
       title = 'Purchase';
