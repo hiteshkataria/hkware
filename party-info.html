@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Party Information</title>
-  <script src="auth.js"></script>
-  <script>
-    window.onload = function () {
-      checkLogin(function(email) {
-        // Handle content once logged in
-        document.getElementById('userEmail').innerText = email;
-        // Display the content for this page
-        document.getElementById('partyInfoContent').classList.remove('hidden');
-      });
-    };
-  </script>
-</head>
-<body>
-  <!-- Party Info Page Content -->
-  <div id="partyInfoContent" class="hidden">
-    <h2>Welcome to Party Info Page</h2>
-    <p>Details about the party...</p>
-  </div>
-</body>
+  <head>
+    <title>Party Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-row">
+        <h2>Party Info</h2>
+        <button onclick="logout()" class="logout-button">Logout</button>
+      </div>
+
+      <button onclick="goToDashboard()" class="back-button">← Back to Dashboard</button>
+
+      <div>
+        <p>Here you can manage Party Information.</p>
+
+        <!-- Add more party-specific UI elements here -->
+        <!-- Example: -->
+        <input type="text" placeholder="Party Name" />
+        <input type="text" placeholder="Contact Number" />
+        <button>Add Party</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      // Optional: ensure user is logged in before showing content
+      window.onload = function () {
+        const email = sessionStorage.getItem("userEmail");
+        if (!email) {
+          window.location.href = "index.html"; // redirect to login if not logged in
+        }
+      };
+
+      function goToDashboard() {
+        window.location.href = "index.html"; // redirect back to main dashboard
+      }
+    </script>
+  </body>
 </html>
