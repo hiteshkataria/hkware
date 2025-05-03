@@ -1,14 +1,5 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 
-window.onload = function () {
-   document.getElementById('loginSpinner').classList.add('hidden');
-  showLogin();
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    login();
-  });
-};
-
 function login() {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
@@ -28,7 +19,7 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
-         sessionStorage.setItem('userEmail', response.email); // ← Add this
+         sessionStorage.setItem('userEmail', response.email);
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
@@ -44,13 +35,13 @@ function login() {
 }
 
 function logout() {
-  const email = sessionStorage.getItem('userEmail');
-  sessionStorage.removeItem('userEmail');
-  fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
-    .then(() => window.location.href = 'index.html')
-    .catch(() => window.location.href = 'index.html');
-}
+  const email = document.getElementById('userEmail').innerText;
+   sessionStorage.removeItem('userEmail');
 
+  fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
+    .then(() => showLogin())
+    .catch(() => showLogin());
+}
 
 function showLogin() {
   document.getElementById('loginSection').classList.remove('hidden');
