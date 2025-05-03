@@ -9,6 +9,8 @@
     <div class="container">
       <div class="header-row">
         <h2>Party Info</h2>
+        <h2>Welcome, <span id="userEmail"></span>!</h2>
+
         <button onclick="logout()" class="logout-button">Logout</button>
       </div>
 
@@ -27,6 +29,14 @@
 
     <script src="script.js"></script>
     <script>
+window.onload = function () {
+  const email = sessionStorage.getItem("userEmail");
+  if (!email) {
+    window.location.href = "index.html"; // redirect to login if not logged in
+  } else {
+    document.getElementById("userEmail").innerText = email;
+  }
+};
 
       function goToDashboard() {
         window.location.href = "index.html"; // redirect back to main dashboard
