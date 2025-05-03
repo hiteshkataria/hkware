@@ -1,14 +1,13 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 
 window.onload = function () {
-  const email = sessionStorage.getItem("userEmail");
-  if (!email) {
-    window.location.href = "index.html"; // redirect to login if not logged in
-  } else {
-    document.getElementById("userEmail").innerText = email;
-  }
+   document.getElementById('loginSpinner').classList.add('hidden');
+  showLogin();
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    login();
+  });
 };
-
 
 function login() {
   const email = document.getElementById('email').value;
@@ -29,7 +28,6 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
-         sessionStorage.setItem('userEmail', response.email); 
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
@@ -45,13 +43,11 @@ function login() {
 }
 
 function logout() {
-  const email = sessionStorage.getItem('userEmail');
-  sessionStorage.removeItem('userEmail');
+  const email = document.getElementById('userEmail').innerText;
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
-    .then(() => window.location.href = 'index.html')
-    .catch(() => window.location.href = 'index.html');
+    .then(() => showLogin())
+    .catch(() => showLogin());
 }
-
 
 function showLogin() {
   document.getElementById('loginSection').classList.remove('hidden');
@@ -74,8 +70,9 @@ function openPage(pageName) {
 
   switch(pageName) {
     case 'partyInfo':
-      window.location.href = 'party-info.html';
-      return; // Exit early since we are redirecting
+      title = 'Party Info';
+      content = 'Here you can manage Party.';
+      break;
     case 'purchase':
       title = 'Purchase';
       content = 'Here you can manage Purchases.';
