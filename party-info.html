@@ -13,6 +13,11 @@
   </div>
   <div id="loginRedirect" class="error hidden">Redirecting to login...</div>
 
-  <script src="script.js"></script>
+  <script src="script.js">
+    verifySessionAndRun(function(email) {
+  document.getElementById('partyContent').classList.remove('hidden');
+});
+
+  </script>
 </body>
 </html>
