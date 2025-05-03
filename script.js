@@ -30,22 +30,39 @@ function logoutAndRedirect() {
 
 // === LOGIN PAGE INIT ===
 function initializeLoginPage() {
-  document.getElementById('loginSpinner')?.classList.add('hidden');
+  const loginSpinner = document.getElementById('loginSpinner');
+  if (loginSpinner) loginSpinner.classList.add('hidden');
 
-  isLoggedIn((loggedIn, email) => {
-    if (loggedIn) {
-      showDashboard(email);
-    } else {
-      localStorage.removeItem('sessionEmail');
-      showLogin();
-    }
-  });
+  const email = localStorage.getItem('sessionEmail');
+  if (email) {
+    fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
+      .then(response => response.json())
+      .then(response => {
+        if (response.loggedIn) {
+          showDashboard(response.email);
+        } else {
+          localStorage.removeItem('sessionEmail');
+          showLogin();
+        }
+      })
+      .catch(() => {
+        const error = document.getElementById('error');
+        if (error) error.innerText = "Couldn't verify session.";
+        showLogin();
+      });
+  } else {
+    showLogin();
+  }
 
-  document.getElementById('loginForm')?.addEventListener('submit', function (event) {
-    event.preventDefault();
-    login();
-  });
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      login();
+    });
+  }
 }
+
 
 // === LOGIN FUNCTION ===
 function login() {
