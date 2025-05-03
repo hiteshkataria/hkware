@@ -4,31 +4,34 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_029PFILK1ogaEUJtQ
 window.onload = function () {
   document.getElementById('loginSpinner').classList.add('hidden');
 
-  const email = sessionStorage.getItem('userEmail');
+  // Check if session exists
+  const email = localStorage.getItem('sessionEmail');
   if (email) {
-    // Check with backend if session is still valid
     fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
       .then(res => res.json())
-      .then(data => {
-        if (data.loggedIn) {
-          showDashboard(data.email);
+      .then(response => {
+        if (response.loggedIn) {
+          showDashboard(response.email);
         } else {
-          sessionStorage.removeItem('userEmail');
+          localStorage.removeItem('sessionEmail'); // Clear stale session
           showLogin();
         }
       })
       .catch(() => {
+        document.getElementById('error').innerText = "Couldn't verify session.";
         showLogin();
       });
   } else {
     showLogin();
   }
 
-  document.getElementById('loginForm').addEventListener('submit', function (event) {
+  // Set up login form handler
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     login();
   });
 };
+
 
 
 function login() {
@@ -50,7 +53,7 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
-         sessionStorage.setItem('userEmail', response.email);
+         localStorage.setItem('sessionEmail', response.email);
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
@@ -66,12 +69,21 @@ function login() {
 }
 
 function logout() {
-  const email = document.getElementById('userEmail').innerText;
-   sessionStorage.removeItem('userEmail');
+  const email = localStorage.getItem('sessionEmail');
+  if (!email) {
+    showLogin();
+    return;
+  }
 
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
-    .then(() => showLogin())
-    .catch(() => showLogin());
+    .then(() => {
+      localStorage.removeItem('sessionEmail');
+      showLogin();
+    })
+    .catch(() => {
+      localStorage.removeItem('sessionEmail');
+      showLogin();
+    });
 }
 
 function showLogin() {
