@@ -1,4 +1,5 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
+//const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_029PFILK1ogaEUJtQ_SF5TjIh0idUweeohWPtKRm0yKCtsVdseyibirYt9SxQut7gQ/exec';
 
 window.onload = function () {
   document.getElementById('loginSpinner').classList.add('hidden');
