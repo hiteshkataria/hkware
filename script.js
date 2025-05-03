@@ -99,38 +99,25 @@ function showDashboard(email) {
 }
 
 function openPage(pageName) {
-  document.getElementById('dashboardSection').classList.add('hidden');
-  document.getElementById('pageContentSection').classList.remove('hidden');
-
-  let title = '';
-  let content = '';
-
   switch(pageName) {
     case 'partyInfo':
-      title = 'Party Info';
-      content = 'Here you can manage Party.';
+      window.location.href = 'party-info.html';
       break;
     case 'purchase':
-      title = 'Purchase';
-      content = 'Here you can manage Purchases.';
+      window.location.href = 'purchase.html';
       break;
     case 'sales':
-      title = 'Sales';
-      content = 'Here you can manage Sales.';
+      window.location.href = 'sales.html';
       break;
     case 'return':
-      title = 'Returns';
-      content = 'Here you can manage Returns.';
+      window.location.href = 'return.html';
       break;
     case 'report':
-      title = 'Reports';
-      content = 'Here you can view Reports.';
+      window.location.href = 'report.html';
       break;
   }
-
-  document.getElementById('pageTitle').innerText = title;
-  document.getElementById('pageContent').innerText = content;
 }
+
 
 function backToDashboard() {
   document.getElementById('pageContentSection').classList.add('hidden');
