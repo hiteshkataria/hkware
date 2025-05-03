@@ -70,9 +70,9 @@ function openPage(pageName) {
 
   switch(pageName) {
     case 'partyInfo':
-      window.location.href = 'party-info.html';
-      return; // Exit early since we are redirecting
-        
+      title = 'Party Info';
+      content = 'Here you can manage Party.';
+      break;
     case 'purchase':
       title = 'Purchase';
       content = 'Here you can manage Purchases.';
