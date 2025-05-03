@@ -47,7 +47,9 @@ function isLoggedIn() {
   const email = sessionStorage.getItem('userEmail');
 
   fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
-    .then(() => showDashboard(email))
+    if (!email) {
+    .then(() => showDashboard(email)) }
+      else
     .catch(() => showLogin());
 }
 
