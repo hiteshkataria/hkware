@@ -1,13 +1,34 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 
 window.onload = function () {
-   document.getElementById('loginSpinner').classList.add('hidden');
-  showLogin();
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
+  document.getElementById('loginSpinner').classList.add('hidden');
+
+  const email = sessionStorage.getItem('userEmail');
+  if (email) {
+    // Check with backend if session is still valid
+    fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.loggedIn) {
+          showDashboard(data.email);
+        } else {
+          sessionStorage.removeItem('userEmail');
+          showLogin();
+        }
+      })
+      .catch(() => {
+        showLogin();
+      });
+  } else {
+    showLogin();
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function (event) {
     event.preventDefault();
     login();
   });
 };
+
 
 function login() {
   const email = document.getElementById('email').value;
@@ -28,6 +49,7 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
+         sessionStorage.setItem('userEmail', response.email);
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
@@ -44,6 +66,8 @@ function login() {
 
 function logout() {
   const email = document.getElementById('userEmail').innerText;
+   sessionStorage.removeItem('userEmail');
+
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
     .then(() => showLogin())
     .catch(() => showLogin());
