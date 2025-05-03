@@ -1,6 +1,7 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 
 window.onload = function () {
+   document.getElementById('loginSpinner').classList.add('hidden');
   showLogin();
   document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
