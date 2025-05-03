@@ -1,70 +1,39 @@
+//const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_029PFILK1ogaEUJtQ_SF5TjIh0idUweeohWPtKRm0yKCtsVdseyibirYt9SxQut7gQ/exec';
 
-// === SESSION HELPERS ===
-function getSessionEmail() {
-  return localStorage.getItem('sessionEmail');
-}
+window.onload = function () {
+  document.getElementById('loginSpinner').classList.add('hidden');
 
-function isLoggedIn(callback) {
-  const email = getSessionEmail();
-  if (!email) return callback(false, null);
-
-  fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
-    .then(res => res.json())
-    .then(response => callback(response.loggedIn, email))
-    .catch(() => callback(false, null));
-}
-
-function logoutAndRedirect() {
-  const email = getSessionEmail();
-  if (email) {
-    fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
-      .finally(() => {
-        localStorage.removeItem('sessionEmail');
-        window.location.href = 'index.html';
-      });
-  } else {
-    window.location.href = 'index.html';
-  }
-}
-
-// === LOGIN PAGE INIT ===
-function initializeLoginPage() {
-  const loginSpinner = document.getElementById('loginSpinner');
-  if (loginSpinner) loginSpinner.classList.add('hidden');
-
+  // Check if session exists
   const email = localStorage.getItem('sessionEmail');
   if (email) {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
-      .then(response => response.json())
+      .then(res => res.json())
       .then(response => {
         if (response.loggedIn) {
           showDashboard(response.email);
         } else {
-          localStorage.removeItem('sessionEmail');
+          localStorage.removeItem('sessionEmail'); // Clear stale session
           showLogin();
         }
       })
       .catch(() => {
-        const error = document.getElementById('error');
-        if (error) error.innerText = "Couldn't verify session.";
+        document.getElementById('error').innerText = "Couldn't verify session.";
         showLogin();
       });
   } else {
     showLogin();
   }
 
-  const loginForm = document.getElementById('loginForm');
-  if (loginForm) {
-    loginForm.addEventListener('submit', function (event) {
-      event.preventDefault();
-      login();
-    });
-  }
-}
+  // Set up login form handler
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    login();
+  });
+};
 
 
-// === LOGIN FUNCTION ===
+
 function login() {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
@@ -84,14 +53,14 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
-        localStorage.setItem('sessionEmail', response.email);
+         localStorage.setItem('sessionEmail', response.email);
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
         document.getElementById('error').innerText = response.message;
       }
     })
-    .catch(() => {
+    .catch(err => {
       loginButton.disabled = false;
       loginButtonText.classList.remove('hidden');
       loginSpinner.classList.add('hidden');
@@ -99,27 +68,44 @@ function login() {
     });
 }
 
-// === DASHBOARD / PAGE UI ===
+function logout() {
+  const email = localStorage.getItem('sessionEmail');
+  if (!email) {
+    showLogin();
+    return;
+  }
+
+  fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
+    .then(() => {
+      localStorage.removeItem('sessionEmail');
+      showLogin();
+    })
+    .catch(() => {
+      localStorage.removeItem('sessionEmail');
+      showLogin();
+    });
+}
+
 function showLogin() {
-  document.getElementById('loginSection')?.classList.remove('hidden');
-  document.getElementById('dashboardSection')?.classList.add('hidden');
-  document.getElementById('pageContentSection')?.classList.add('hidden');
+  document.getElementById('loginSection').classList.remove('hidden');
+  document.getElementById('dashboardSection').classList.add('hidden');
+  document.getElementById('pageContentSection').classList.add('hidden');
 }
 
 function showDashboard(email) {
-  document.getElementById('loginSection')?.classList.add('hidden');
-  document.getElementById('dashboardSection')?.classList.remove('hidden');
-  document.getElementById('userEmail')?.innerText = email;
+  document.getElementById('loginSection').classList.add('hidden');
+  document.getElementById('dashboardSection').classList.remove('hidden');
+  document.getElementById('userEmail').innerText = email;
 }
 
 function openPage(pageName) {
-  document.getElementById('dashboardSection')?.classList.add('hidden');
-  document.getElementById('pageContentSection')?.classList.remove('hidden');
+  document.getElementById('dashboardSection').classList.add('hidden');
+  document.getElementById('pageContentSection').classList.remove('hidden');
 
   let title = '';
   let content = '';
 
-  switch (pageName) {
+  switch(pageName) {
     case 'partyInfo':
       title = 'Party Info';
       content = 'Here you can manage Party.';
@@ -147,19 +133,6 @@ function openPage(pageName) {
 }
 
 function backToDashboard() {
-  document.getElementById('pageContentSection')?.classList.add('hidden');
-  document.getElementById('dashboardSection')?.classList.remove('hidden');
-}
-
-// === PROTECTED PAGE INIT ===
-function initializeProtectedPage() {
-  isLoggedIn((loggedIn, email) => {
-    if (loggedIn) {
-      document.getElementById('userEmail').innerText = email;
-      document.getElementById('pageContent').classList.remove('hidden');
-    } else {
-      localStorage.removeItem('sessionEmail');
-      window.location.href = 'index.html';
-    }
-  });
+  document.getElementById('pageContentSection').classList.add('hidden');
+  document.getElementById('dashboardSection').classList.remove('hidden');
 }
