@@ -47,10 +47,13 @@ function isLoggedIn() {
   const email = sessionStorage.getItem('userEmail');
 
   fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
-    if (response.loggedIn) {
-    .then(() => showDashboard(email)) 
+   .then(res => res.json())
+    .then(response => {
+      loginButton.disabled = false; 
+  if (response.loggedIn) {
+    showDashboard(response.email);
     } else {
-    .then(() => showLogin())
+   document.getElementById('error').innerText = response.message;
     }
     .catch(() => showLogin());
 }
