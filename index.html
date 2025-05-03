@@ -32,31 +32,15 @@
   </div>
 
   <div class="card-container">
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-
-      <div class="card" style="flex: 1 1 calc(45% - 10px); background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); min-width: 140px; text-align: center;" onclick="openPage('partyInfo')">
-        <h3 style="font-size: 18px; margin-bottom: 10px;">Party Info</h3>
+        <div class="card-grid">
+          <div class="card" onclick="openPage('partyInfo')"><h3>Party Info</h3></div>
+          <div class="card" onclick="openPage('purchase')"><h3>Purchase</h3></div>
+          <div class="card" onclick="openPage('sales')"><h3>Sales</h3></div>
+          <div class="card" onclick="openPage('return')"><h3>Return</h3></div>
+          <div class="card" onclick="openPage('report')"><h3>Report</h3></div>
+        </div>
       </div>
-
-      <div class="card" style="flex: 1 1 calc(45% - 10px); background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); min-width: 140px; text-align: center;" onclick="openPage('purchase')">
-        <h3 style="font-size: 18px; margin-bottom: 10px;">Purchase</h3>
-      </div>
-
-      <div class="card" style="flex: 1 1 calc(45% - 10px); background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); min-width: 140px; text-align: center;" onclick="openPage('sales')">
-        <h3 style="font-size: 18px; margin-bottom: 10px;">Sales</h3>
-      </div>
-
-      <div class="card" style="flex: 1 1 calc(45% - 10px); background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); min-width: 140px; text-align: center;" onclick="openPage('return')">
-        <h3 style="font-size: 18px; margin-bottom: 10px;">Return</h3>
-      </div>
-
-      <div class="card" style="flex: 1 1 calc(45% - 10px); background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 5px rgba(0,0,0,0.1); min-width: 140px; text-align: center;" onclick="openPage('report')">
-        <h3 style="font-size: 18px; margin-bottom: 10px;">Report</h3>
-      </div>
-
     </div>
-  </div>
-</div>
 
 <!-- Page Content Section -->
 <div id="pageContentSection" class="hidden">
