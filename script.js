@@ -2,7 +2,8 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_029PFILK1ogaEUJtQ_SF5TjIh0idUweeohWPtKRm0yKCtsVdseyibirYt9SxQut7gQ/exec';
 
 window.onload = function () {
-  document.getElementById('loginSpinner').classList.add('hidden');
+  // Show loading screen
+  document.getElementById('loadingScreen')?.classList.remove('hidden');
 
   // Check if session exists
   const email = localStorage.getItem('sessionEmail');
@@ -10,6 +11,7 @@ window.onload = function () {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
       .then(res => res.json())
       .then(response => {
+                document.getElementById('loadingScreen')?.classList.add('hidden');
         if (response.loggedIn) {
           showDashboard(response.email);
         } else {
@@ -18,10 +20,12 @@ window.onload = function () {
         }
       })
       .catch(() => {
+                document.getElementById('loadingScreen')?.classList.add('hidden');
         document.getElementById('error').innerText = "Couldn't verify session.";
         showLogin();
       });
   } else {
+        document.getElementById('loadingScreen')?.classList.add('hidden');
     showLogin();
   }
 
