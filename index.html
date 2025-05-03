@@ -7,10 +7,14 @@
 
   </head>
   <body>
-    <!-- Container for the login form -->
-    <div class="container">
-      <!-- Login Section -->
-      <div id="loginSection">
+    <div id="loadingScreen">
+  <p>Loading...</p>
+</div>
+
+<!-- Container for the login form -->
+<div class="container">
+  <!-- Login Section -->
+  <div id="loginSection" class="hidden"> <!-- Add hidden class -->
         <h2>Login</h2>
         <div class="error" id="error"></div>
          <form id="loginForm">
@@ -23,9 +27,8 @@
         </form>
       </div>
 
-      <!-- Dashboard Section (hidden initially) -->
-      <!-- Dashboard Section (hidden initially) -->
-<div id="dashboardSection" class="hidden">
+  <!-- Dashboard Section -->
+  <div id="dashboardSection" class="hidden">
   <div class="header-row">
     <h2>Welcome, <span id="userEmail"></span>!</h2>
     <button onclick="logout()" class="logout-button">Logout</button>
@@ -42,8 +45,8 @@
       </div>
     </div>
 
-<!-- Page Content Section -->
-<div id="pageContentSection" class="hidden">
+  <!-- Page Content Section -->
+  <div id="pageContentSection" class="hidden">
   <button onclick="backToDashboard()" class="back-button">? Back</button>
   <h2 id="pageTitle"></h2>
   <p id="pageContent"></p>
