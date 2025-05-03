@@ -2,7 +2,7 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_029PFILK1ogaEUJtQ_SF5TjIh0idUweeohWPtKRm0yKCtsVdseyibirYt9SxQut7gQ/exec';
 
 window.onload = function () {
-  document.getElementById('loginSpinner').classList.add('hidden');
+
 
   // Check if session exists
   const email = localStorage.getItem('sessionEmail');
