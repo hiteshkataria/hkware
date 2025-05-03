@@ -44,12 +44,13 @@ function login() {
 }
 
 function logout() {
-     const email = sessionStorage.getItem('userEmail');
+  const email = sessionStorage.getItem('userEmail');
   sessionStorage.removeItem('userEmail');
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
-    .then(() => showLogin())
-    .catch(() => showLogin());
+    .then(() => window.location.href = 'index.html')
+    .catch(() => window.location.href = 'index.html');
 }
+
 
 function showLogin() {
   document.getElementById('loginSection').classList.remove('hidden');
