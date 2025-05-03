@@ -43,6 +43,15 @@ function logout() {
     .catch(() => showLogin());
 }
 
+function isLoggedIn() {
+  const email = sessionStorage.getItem('userEmail');
+
+  fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
+    .then(() => showDashboard(email))
+    .catch(() => showLogin());
+}
+
+
 function showLogin() {
   document.getElementById('loginSection').classList.remove('hidden');
   document.getElementById('dashboardSection').classList.add('hidden');
