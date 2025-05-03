@@ -28,12 +28,15 @@
     <script src="script.js"></script>
     <script>
       // Optional: ensure user is logged in before showing content
-      window.onload = function () {
-        const email = sessionStorage.getItem("userEmail");
-        if (!email) {
-          window.location.href = "index.html"; // redirect to login if not logged in
-        }
-      };
+window.onload = function () {
+  const email = sessionStorage.getItem("userEmail");
+  if (!email) {
+    window.location.href = "index.html"; // redirect to login if not logged in
+  } else {
+    document.getElementById("userEmail").innerText = email;
+  }
+};
+
 
       function goToDashboard() {
         window.location.href = "index.html"; // redirect back to main dashboard
