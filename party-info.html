@@ -1,32 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Party Info</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="header-row">
-        <h2>Party Info</h2>
-        <h2>Welcome, <span id="userEmail"></span>!</h2>
+<head>
+  <title>Party Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="partyContent" class="hidden">
+    <button onclick="logout()" class="logout-button">Logout</button>
+    <h2>Party Info</h2>
+    <p>Here you can manage Party.</p>
+  </div>
+  <div id="loginRedirect" class="error hidden">Redirecting to login...</div>
 
-        <button onclick="logout()" class="logout-button">Logout</button>
-      </div>
-
-      <button onclick="goToDashboard()" class="back-button">? Back to Dashboard</button>
-
-      <div>
-        <p>Here you can manage Party Information.</p>
-
-        <!-- Add more party-specific UI elements here -->
-        <!-- Example: -->
-        <input type="text" placeholder="Party Name" />
-        <input type="text" placeholder="Contact Number" />
-        <button>Add Party</button>
-      </div>
-    </div>
-
-<script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
