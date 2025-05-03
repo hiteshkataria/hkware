@@ -44,7 +44,7 @@
 
 <!-- Page Content Section -->
 <div id="pageContentSection" class="hidden">
-  <button onclick="backToDashboard()" class="back-button">← Back</button>
+  <button onclick="backToDashboard()" class="back-button">? Back</button>
   <h2 id="pageTitle"></h2>
   <p id="pageContent"></p>
 </div>
@@ -52,16 +52,7 @@
 
     </div>
 
-<script>
-  window.onload = function () {
-   document.getElementById('loginSpinner').classList.add('hidden');
-  showLogin();
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    login();
-  });
-};
-</script>
+
 <script src="script.js"></script>
 </body>
 </html>
