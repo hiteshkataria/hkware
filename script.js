@@ -136,7 +136,8 @@ function openPage(pageName) {
   switch(pageName) {
     case 'partyInfo':
       title = 'Party Info';
-      content = 'Here you can manage Party.';
+      window.location.href = pageName + '.html';
+
       break;
     case 'purchase':
       title = 'Purchase';
