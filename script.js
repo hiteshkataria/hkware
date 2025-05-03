@@ -28,6 +28,7 @@ function login() {
       loginSpinner.classList.add('hidden');
 
       if (response.success) {
+         sessionStorage.setItem('userEmail', response.email); // ← Add this
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
@@ -43,7 +44,8 @@ function login() {
 }
 
 function logout() {
-  const email = document.getElementById('userEmail').innerText;
+     const email = sessionStorage.getItem('userEmail');
+  sessionStorage.removeItem('userEmail');
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
     .then(() => showLogin())
     .catch(() => showLogin());
