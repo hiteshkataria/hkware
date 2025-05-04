@@ -107,6 +107,13 @@
         window.location.href = "index.html"; // redirect back to main dashboard
       }
 
+         function clickEventHandler(e) {
+     if (e.target.matches(".select-button")) {
+       selectParty(e);
+     }
+
+   }
+
    // For Search
    function inputEventHandler(e) {
      if (e.target.matches("#searchInput")) {
@@ -206,7 +213,9 @@ function setDataForSearch() {
 
 
 
-
+   // For Search 
+   document.getElementById("app").addEventListener("input", inputEventHandler);
+   document.getElementById("app").addEventListener("click", clickEventHandler);
                           
          document.addEventListener("DOMContentLoaded", afterPageLoads);
 
