@@ -170,7 +170,7 @@
 
 
 function setDataForSearch() {
- 
+  loadingStart();
 
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
@@ -181,15 +181,19 @@ function setDataForSearch() {
     body: params.toString()
   })
   .then(response => response.json())
-  .then(dataReturned => {
-    console.log("dataReturned: ", dataReturned);
-    data = dataReturned.slice();
-    console.log("data: ", data);
-
+  .then(result => {
+    if (result.success) {
+      console.log("dataReturned: ", result.data);
+      data = result.data.slice();  // now safe to call .slice()
+      console.log("data: ", data);
+    } else {
+      console.error("Failed to fetch party list:", result.message);
+    }
+    loadingEnd();
   })
   .catch(error => {
     console.error('Error fetching party list:', error);
-
+    loadingEnd();
   });
 }
 
