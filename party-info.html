@@ -150,7 +150,7 @@ document.getElementById("bill-item-info").classList.add("invisible");
 
 
 function setDataForSearch() {
-  loadingStart();
+ 
 
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
@@ -165,11 +165,11 @@ function setDataForSearch() {
     console.log("dataReturned: ", dataReturned);
     data = dataReturned.slice();
     console.log("data: ", data);
-    loadingEnd();
+
   })
   .catch(error => {
     console.error('Error fetching party list:', error);
-    loadingEnd();
+
   });
 }
 
