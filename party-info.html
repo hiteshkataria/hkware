@@ -14,15 +14,50 @@
 
       <button onclick="goToDashboard()" class="back-button">? Back to Dashboard</button>
 
-      <div>
-        <p>Here you can manage Party Information.</p>
+              <div class="form-group">
 
-        <!-- Add more party-specific UI elements here -->
-        <!-- Example: -->
-        <input type="text" placeholder="Party Name" />
-        <input type="text" placeholder="Contact Number" />
-        <button>Add Party</button>
-      </div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="searchInput" placeholder="search Party... ">
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="searchCounter"></span>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <table class="table table-hover table-bordered table-sm" id="table-id">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-right pr-2">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col"></th>  
+
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody id="searchResults">
+
+                </tbody>
+              </table>
+
+              <template id="rowTemplate">
+                <tr class="result-box">
+                  <th class="partyID text-right pr-2" scope="row"></th>
+                  <td class="partyName"></td>
+                  <td class="partyAddress"></td>
+                  <td class="text-center"><button type="button" class="btn btn-outline-dark edit-button btn-sm">Edit</button></td>
+                  <td class="text-center">
+                    <div class="btn-group" role="group">
+
+                      <button type="button" class="btn btn-outline-dark select-button btn-sm">Select</button>
+                    </div>
+                  </td>
+
+                </tr>
+
+              </template>
     </div>
 
     <script src="script.js"></script>
