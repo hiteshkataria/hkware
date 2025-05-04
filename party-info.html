@@ -74,7 +74,7 @@
                 </tr>
 
               </template>
-                    <div id="party-info" class="row">
+                                  <div id="party-info" class="row">
                 <div class="col-xs-6">
                   <div  class="partyInfo">
                     <div id="party-code"></div>
@@ -88,7 +88,15 @@
 
                 </div>
 
+                <div class="col-xs-6 text-right">
+                  <div class="bill-info">
+                  <label for="purchase-bill-number">Bill #: </label>
+                  <input type="text" class="form-control" id="purchase-bill-number" oninput="this.value = this.value.toUpperCase()">
+                  <label for="purchase-bill-date">Bill Date: </label>
+                  <input type="date"  class="form-control" id="purchase-bill-date">
+                </div>
               </div>
+</div>
 </div>
 
 
