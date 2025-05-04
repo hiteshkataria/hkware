@@ -175,17 +175,19 @@ function setDataForSearch() {
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
 
-  fetch('https://script.google.com/macros/s/AKfycbxoHzGe9svxvgI3W_FYFW4SIqXohNzDxs1TRLyF6643P7TS6knEuearHLzjLWotcQHYzA/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbytw24RYyKPa5ufknWFsAvkb2hbfiXbY_3ATaZ2-HHHaOC8uRNRPk1_5RMUglE1x4jJ5w/exec', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params.toString()
   })
-  .then(response => response.json())
+  .then(response => {
+    return response.json();
+  })
   .then(result => {
-    console.log("Raw result:", result);
+    console.log("Raw result:", result);  // Logs the full response from Apps Script
 
     if (result.success) {
-      data = result.data.slice();  // Store a copy
+      data = result.data.slice();
       console.log("Party list data:", data);
     } else {
       console.error("Failed to fetch party list:", result.message || "No message provided");
@@ -198,6 +200,7 @@ function setDataForSearch() {
 
   });
 }
+
 
 
                           
