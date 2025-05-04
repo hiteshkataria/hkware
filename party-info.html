@@ -170,7 +170,7 @@
 
 
 function setDataForSearch() {
-  loadingStart();
+
 
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
@@ -189,11 +189,11 @@ function setDataForSearch() {
     } else {
       console.error("Failed to fetch party list:", result.message);
     }
-    loadingEnd();
+
   })
   .catch(error => {
     console.error('Error fetching party list:', error);
-    loadingEnd();
+
   });
 }
 
