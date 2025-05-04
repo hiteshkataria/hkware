@@ -175,20 +175,22 @@ function setDataForSearch() {
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
 
-  fetch('https://script.google.com/macros/s/AKfycbxoHzGe9svxvgI3W_FYFW4SIqXohNzDxs1TRLyF6643P7TS6knEuearHLzjLWotcQHYzA/exec', {
+  fetch('YOUR_SCRIPT_DEPLOYMENT_URL', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params.toString()
   })
   .then(response => response.json())
   .then(result => {
+    console.log("Raw result:", result);
+
     if (result.success) {
-      console.log("dataReturned: ", result.data);
-      data = result.data.slice();  // now safe to call .slice()
-      console.log("data: ", data);
+      data = result.data.slice();  // Store a copy
+      console.log("Party list data:", data);
     } else {
-      console.error("Failed to fetch party list:", result.message);
+      console.error("Failed to fetch party list:", result.message || "No message provided");
     }
+
 
   })
   .catch(error => {
@@ -196,6 +198,7 @@ function setDataForSearch() {
 
   });
 }
+
 
                           
          document.addEventListener("DOMContentLoaded", afterPageLoads);
