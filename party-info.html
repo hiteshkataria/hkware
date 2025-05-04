@@ -155,7 +155,7 @@ function setDataForSearch() {
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
 
-  fetch('YOUR_SCRIPT_DEPLOYMENT_URL', {
+  fetch('SCRIPT_URL', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: params.toString()
