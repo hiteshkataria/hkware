@@ -145,7 +145,6 @@
      var searchWords = searchInput.split(/\s+/); // trim by space
      var searchColumns = [0, 1, 2, 5];
 
-     console.log("Input: ", searchInput);
      var resultsArray = searchInput === "" ? [] : data.filter(function(r) {
 
        return searchWords.every(function(word) {
@@ -193,24 +192,25 @@ function setDataForSearch() {
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
   params.append('token', token);
-console.log(token);
-fetch('https://script.google.com/macros/s/AKfycbykzRl69oHA-B739cT78n8cnH_F2Se8TfUPmWJ9Xmx786fCJxFHbAxjtIR1OTr60ow5cw/exec?action=getPartyList&token=' + encodeURIComponent(token))
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: params.toString()
+  })
   .then(response => {
-    console.log("Raw response:", response);
     return response.json();
   })
   .then(result => {
-    console.log("Parsed JSON result:", result);
     if (result.success) {
       data = result.data.slice();
-      console.log("Party list data:", data);
     } else {
       alert("Unauthorized or error: " + result.message);
       window.location.href = 'index.html';
     }
   })
   .catch(error => {
-    console.error("Fetch error:", error);
   });
 
 }
