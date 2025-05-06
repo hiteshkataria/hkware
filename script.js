@@ -60,6 +60,7 @@ function login() {
 
       if (response.success) {
          localStorage.setItem('sessionEmail', response.email);
+        localStorage.setItem('token', 'valid'); // or response.token if available
         showDashboard(response.email);
         document.getElementById('error').innerText = "";
       } else {
