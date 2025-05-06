@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Party Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+          .table>tbody>tr>.no-line {
+      border-top: none;
+    }
+
+    .table>thead>tr>.no-line {
+      border-bottom: none;
+    }
+
+    .table>tbody>tr>.thick-line {
+      border-top: 2px solid;
+    }
+        #party-code {
+    font-weight: bold; 
+  }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header-row">
+        <h2>Party Info</h2>
+        <button onclick="logout()" class="logout-button">Logout</button>
+      </div>
+
+      <button onclick="goToDashboard()" class="back-button">? Back to Dashboard</button>
+<div id="app">
+              <div class="form-group">
+
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="searchInput" placeholder="search Party... ">
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="searchCounter"></span>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <table class="table table-hover table-bordered table-sm" id="table-id">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-right pr-2">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col"></th>  
+
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody id="searchResults">
+
+                </tbody>
+              </table>
+
+              <template id="rowTemplate">
+                <tr class="result-box">
+                  <th class="partyID text-right pr-2" scope="row"></th>
+                  <td class="partyName"></td>
+                  <td class="partyAddress"></td>
+                  <td class="text-center"><button type="button" class="btn btn-outline-dark edit-button btn-sm">Edit</button></td>
+                  <td class="text-center">
+                    <div class="btn-group" role="group">
+
+                      <button type="button" class="btn btn-outline-dark select-button btn-sm">Select</button>
+                    </div>
+                  </td>
+
+                </tr>
+
+              </template>
+                                  <div id="party-info" class="row">
+                <div class="col-xs-6">
+                  <div  class="partyInfo">
+                    <div id="party-code"></div>
+                    <div id="party-name"></div>
+                    <div id="party-address"></div>
+                    <div id="party-city"></div>
+                    <div id="party-phone"></div>
+                    <div id="party-GST"></div>
+                    <input type="text" id="party-rate-code" oninput="this.value = this.value.toUpperCase()">
+                  </div>
+
+                </div>
+
+                <div class="col-xs-6 text-right">
+                  <div class="bill-info">
+                  <label for="purchase-bill-number">Bill #: </label>
+                  <input type="text" class="form-control" id="purchase-bill-number" oninput="this.value = this.value.toUpperCase()">
+                  <label for="purchase-bill-date">Bill Date: </label>
+                  <input type="date"  class="form-control" id="purchase-bill-date">
+                </div>
+              </div>
+</div>
+</div>
+
+
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+      function goToDashboard() {
+        window.location.href = "index.html"; // redirect back to main dashboard
+      }
+
+         function clickEventHandler(e) {
+     if (e.target.matches(".select-button")) {
+       selectParty(e);
+     }
+
+   }
+
+   // For Search
+   function inputEventHandler(e) {
+     if (e.target.matches("#searchInput")) {
+       search();
+     }
+   }
+         function afterPageLoads() {
+     //      google.script.run.withSuccessHandler(afterDropDownArrayReturned).getDropDownArray();
+     //     google.script.run.withSuccessHandler(listOfPartyReturned).getPartyList();
+     setDataForSearch();
+     initialPartyInfo = document.getElementById("party-info").innerHTML;
+     document.getElementById("party-info").innerHTML = '';
+     console.log("I" + initialPartyInfo);
+     document.getElementById("table-id").style.display = "none";
+     
+  
+   }
+
+      function search() {
+     document.getElementById("table-id").style.display = "revert";
+     document.getElementById("searchCounter").style.display = "revert";
+     var searchInput = document.getElementById("searchInput").value.toString().toLowerCase().trim();
+     var searchWords = searchInput.split(/\s+/); // trim by space
+     var searchColumns = [0, 1, 2, 5];
+
+     console.log("Input: ", searchInput);
+     var resultsArray = searchInput === "" ? [] : data.filter(function(r) {
+
+       return searchWords.every(function(word) {
+         return searchColumns.some(function(colIndex) {
+           return r[colIndex].toString().toLowerCase().indexOf(word) !== -1;
+         });
+       });
+     });
+
+     var recordCount = searchInput === "" ? "" : "Record count: " + resultsArray.length;
+     document.getElementById("searchCounter").textContent = recordCount;
+     var searchResultsBox = document.getElementById("searchResults");
+     var templateBox = document.getElementById("rowTemplate");
+     var template = templateBox.content;
+
+     searchResultsBox.innerHTML = "";
+
+     resultsArray.forEach(function(r) {
+       var tr = template.cloneNode(true);
+       var partyIDColumn = tr.querySelector(".partyID");
+       var partyNameColumn = tr.querySelector(".partyName");
+       var partyAddressColumn = tr.querySelector(".partyAddress");
+       var selectButton = tr.querySelector(".select-button");
+       var editButton = tr.querySelector(".edit-button");
+
+       partyIDColumn.textContent = r[0];
+       selectButton.dataset.partyId = r[0];
+       editButton.dataset.partyId = r[0];
+       partyNameColumn.textContent = r[1];
+       partyAddressColumn.textContent = r[2] + " - " + r[5];
+
+       searchResultsBox.appendChild(tr);
+     });
+   }
+
+
+function setDataForSearch() {
+
+  const token = localStorage.getItem('session_token');
+if (!token) {
+  window.location.href = 'index.html'; // redirect to login
+  return;
+}
+
+  const params = new URLSearchParams();
+  params.append('action', 'getPartyList');
+  params.append('token', token);
+
+  fetch('https://script.google.com/macros/s/AKfycbykzRl69oHA-B739cT78n8cnH_F2Se8TfUPmWJ9Xmx786fCJxFHbAxjtIR1OTr60ow5cw/exec', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: params.toString()
+  })
+  .then(response => {
+    console.log("Status:", response.status);
+    return response.json();  // Make sure Apps Script returns valid JSON
+  })
+  .then(result => {
+    console.log("Raw result:", result);
+
+    if (result.success) {
+      data = result.data.slice();  // Safe to use slice now
+      console.log("Party list data:", data);
+    } else {
+      console.error("Failed to fetch party list:", result.message || "No message provided");
+    }
+
+
+  })
+  .catch(error => {
+    console.error('Error fetching party list:', error);
+
+  });
+}
+
+
+
+   // For Search 
+   document.getElementById("app").addEventListener("input", inputEventHandler);
+   document.getElementById("app").addEventListener("click", clickEventHandler);
+                          
+         document.addEventListener("DOMContentLoaded", afterPageLoads);
+
+      
+    </script>
+  </body>
+</html>
