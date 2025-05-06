@@ -122,15 +122,19 @@
      }
    }
          function afterPageLoads() {
-     //      google.script.run.withSuccessHandler(afterDropDownArrayReturned).getDropDownArray();
-     //     google.script.run.withSuccessHandler(listOfPartyReturned).getPartyList();
-     setDataForSearch();
-     initialPartyInfo = document.getElementById("party-info").innerHTML;
-     document.getElementById("party-info").innerHTML = '';
-     console.log("I" + initialPartyInfo);
-     document.getElementById("table-id").style.display = "none";
-     
-  
+     document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = 'index.html'; // Redirect to login
+    return;
+  }
+
+  setDataForSearch();
+  initialPartyInfo = document.getElementById("party-info").innerHTML;
+  document.getElementById("party-info").innerHTML = '';
+  document.getElementById("table-id").style.display = "none";
+});
+
    }
 
       function search() {
@@ -179,38 +183,40 @@
 
 function setDataForSearch() {
 
+function setDataForSearch() {
+  const token = localStorage.getItem('token'); // Retrieve saved token
+  if (!token) {
+    alert('Not logged in. Please log in again.');
+    window.location.href = 'index.html';
+    return;
+  }
 
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
+  params.append('token', token); // Add token here ✅
 
-  fetch('https://script.google.com/macros/s/AKfycbwCeqAEth5InQJzbJwuU-3krb991fMMWgKaVlwQUVaNF7JUXFoBIuJgvoQr8dRnLbL_1w/exec', {
+  fetch(SCRIPT_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: params.toString()
   })
-  .then(response => {
-    console.log("Status:", response.status);
-    return response.json();  // Make sure Apps Script returns valid JSON
-  })
+  .then(response => response.json())
   .then(result => {
-    console.log("Raw result:", result);
-
     if (result.success) {
-      data = result.data.slice();  // Safe to use slice now
+      data = result.data.slice();
       console.log("Party list data:", data);
     } else {
-      console.error("Failed to fetch party list:", result.message || "No message provided");
+      alert("Unauthorized or error fetching data: " + result.message);
+      window.location.href = 'index.html'; // Redirect if session expired
     }
-
-
   })
   .catch(error => {
     console.error('Error fetching party list:', error);
-
   });
 }
+
 
 
 
