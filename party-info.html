@@ -193,7 +193,7 @@ function setDataForSearch() {
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
   params.append('token', token);
-
+console.log(token);
 fetch('https://script.google.com/macros/s/AKfycbykzRl69oHA-B739cT78n8cnH_F2Se8TfUPmWJ9Xmx786fCJxFHbAxjtIR1OTr60ow5cw/exec?action=getPartyList&token=' + encodeURIComponent(token))
   .then(response => {
     console.log("Raw response:", response);
