@@ -124,7 +124,9 @@
          function afterPageLoads() {
      
   const token = localStorage.getItem('token');
-  if (!token) {
+             const email = localStorage.getItem("sessionEmail");
+    if (!token || !email) {
+       alert("Session expired. Please login again.");
     window.location.href = 'index.html'; // Redirect to login
     return;
   }
