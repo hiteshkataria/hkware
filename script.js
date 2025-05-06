@@ -7,7 +7,8 @@ window.onload = function () {
 
   // Check if session exists
   const email = localStorage.getItem('sessionEmail');
-  if (email) {
+  const token = localStorage.getItem('token');
+  if (email && token) {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
       .then(res => res.json())
       .then(response => {
@@ -16,6 +17,7 @@ window.onload = function () {
           showDashboard(response.email);
         } else {
           localStorage.removeItem('sessionEmail'); // Clear stale session
+          localStorage.removeItem('token');
           showLogin();
         }
       })
