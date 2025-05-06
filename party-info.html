@@ -122,19 +122,15 @@
      }
    }
          function afterPageLoads() {
-     document.addEventListener("DOMContentLoaded", () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    window.location.href = 'index.html'; // Redirect to login
-    return;
-  }
-
-  setDataForSearch();
-  initialPartyInfo = document.getElementById("party-info").innerHTML;
-  document.getElementById("party-info").innerHTML = '';
-  document.getElementById("table-id").style.display = "none";
-});
-
+     //      google.script.run.withSuccessHandler(afterDropDownArrayReturned).getDropDownArray();
+     //     google.script.run.withSuccessHandler(listOfPartyReturned).getPartyList();
+     setDataForSearch();
+     initialPartyInfo = document.getElementById("party-info").innerHTML;
+     document.getElementById("party-info").innerHTML = '';
+     console.log("I" + initialPartyInfo);
+     document.getElementById("table-id").style.display = "none";
+     
+  
    }
 
       function search() {
@@ -179,7 +175,6 @@
        searchResultsBox.appendChild(tr);
      });
    }
-
 
 
 function setDataForSearch() {
