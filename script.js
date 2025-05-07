@@ -1,5 +1,5 @@
 //const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZs7Xr2OxZdwMg-iZFJYaBDrj3ik5H-mkXKncQrMPyvPXvnfDmkWGP9O0eFpVxe_U1Xw/exec';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykzRl69oHA-B739cT78n8cnH_F2Se8TfUPmWJ9Xmx786fCJxFHbAxjtIR1OTr60ow5cw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8EfEU_GbS1bEo0Z0xfR8m-kPgiJNxo70x979XaRFiKLk5S4F7giAXlfh_nc7tHkwjlA/exec';
 
 window.onload = function () {
   // Show loading screen
