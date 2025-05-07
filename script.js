@@ -9,7 +9,7 @@ window.onload = function () {
   const email = localStorage.getItem('sessionEmail');
   const token = localStorage.getItem('token');
   if (email && token) {
-    fetch(`${SCRIPT_URL}?action=isLoggedIn&email=${encodeURIComponent(email)}`)
+    fetch(`${SCRIPT_URL}?action=isLoggedIn&token=${encodeURIComponent(token)}`)
       .then(res => res.json())
       .then(response => {
                 document.getElementById('loadingScreen')?.classList.add('hidden');
