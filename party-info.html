@@ -5,20 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <style>
-          .table>tbody>tr>.no-line {
-      border-top: none;
-    }
+    /* Container for the cards */
+#searchResults {
+  display: block;
+  margin-top: 20px;
+}
 
-    .table>thead>tr>.no-line {
-      border-bottom: none;
-    }
+/* Party Card */
+.party-card {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .table>tbody>tr>.thick-line {
-      border-top: 2px solid;
-    }
-        #party-code {
-    font-weight: bold; 
-  }
+/* Hover Effect */
+.party-card:hover {
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Left section for Party Code */
+.party-card .left {
+  width: 90px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+  flex-shrink: 0;
+}
+
+/* Right section for Name and City */
+.party-card .right {
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
+.party-name {
+  font-size: 18
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-row label {
+  width: 30%;
+  font-weight: bold;
+}
+
+.form-row span,
+.form-row input {
+  width: 65%;
+  font-size: 14px;
+}
+
+.form-row input {
+  width: 65%;
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-buttons {
+  text-align: center;
+  margin-top: 20px;
+}
+
+input[readonly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
     </style>
   </head>
   <body>
@@ -35,68 +110,74 @@
                 <div class="input-group mb-3">
                   <input type="text" class="form-control" id="searchInput" placeholder="search Party... ">
                   <div class="input-group-append">
-                    <span class="input-group-text" id="searchCounter"></span>
+                   
                   </div>
                 </div>
 
 
               </div>
 
-              <table class="table table-hover table-bordered table-sm" id="table-id">
-                <thead>
-                  <tr>
-                    <th scope="col" class="text-right pr-2">Code</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col"></th>  
 
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody id="searchResults">
 
-                </tbody>
-              </table>
 
-              <template id="rowTemplate">
-                <tr class="result-box">
-                  <th class="partyID text-right pr-2" scope="row"></th>
-                  <td class="partyName"></td>
-                  <td class="partyAddress"></td>
-                  <td class="text-center"><button type="button" class="btn btn-outline-dark edit-button btn-sm">Edit</button></td>
-                  <td class="text-center">
-                    <div class="btn-group" role="group">
+<template id="rowTemplate">
+  <div class="party-card">
+    <div class="left">
+      <div class="party-code"></div>
+    </div>
+    <div class="right">
+      <div class="party-name"></div>
+      <div class="party-city"></div>
+    </div>
+  </div>
+</template>
 
-                      <button type="button" class="btn btn-outline-dark select-button btn-sm">Select</button>
-                    </div>
-                  </td>
+<div id="searchResults"></div>
 
-                </tr>
+<div id="party-details" class="container" style="display: none;">
+  <button onclick="goBackToSearch()" class="back-button">? Back to Search Results</button>
 
-              </template>
-                                  <div id="party-info" class="row">
-                <div class="col-xs-6">
-                  <div  class="partyInfo">
-                    <div id="party-code"></div>
-                    <div id="party-name"></div>
-                    <div id="party-address"></div>
-                    <div id="party-city"></div>
-                    <div id="party-phone"></div>
-                    <div id="party-GST"></div>
-                    <input type="text" id="party-rate-code" oninput="this.value = this.value.toUpperCase()">
-                  </div>
+  <h2>Party Details</h2>
 
-                </div>
+  <div id="party-info" class="details-grid">
+  <div class="form-row">
+    <label>Party Code:</label>
+    <span id="party-code"></span>
+  </div>
+  <div class="form-row">
+    <label>Party Name:</label>
+    <span id="party-name"></span>
+  </div>
+  <div class="form-row">
+    <label>Address:</label>
+    <span id="party-address"></span>
+  </div>
+  <div class="form-row">
+    <label>City:</label>
+    <span id="party-city"></span>
+  </div>
+  <div class="form-row">
+    <label>Phone:</label>
+    <span id="party-phone"></span>
+  </div>
+  <div class="form-row">
+    <label>GST Number:</label>
+    <span id="party-gst"></span>
+  </div>
+  <div class="form-row">
+    <label>Rate Code:</label>
+    <span id="party-rate-code"></span>
+  </div>
 
-                <div class="col-xs-6 text-right">
-                  <div class="bill-info">
-                  <label for="purchase-bill-number">Bill #: </label>
-                  <input type="text" class="form-control" id="purchase-bill-number" oninput="this.value = this.value.toUpperCase()">
-                  <label for="purchase-bill-date">Bill Date: </label>
-                  <input type="date"  class="form-control" id="purchase-bill-date">
-                </div>
-              </div>
+  <div class="form-buttons">
+    <button onclick="editParty()" class="btn btn-primary">Edit</button>
+    <button onclick="saveParty()" class="btn btn-success" id="save-btn" style="display: none;">Save</button>
+  </div>
 </div>
+
+
+</div>
+
 </div>
 
 
@@ -133,52 +214,54 @@
 
   setDataForSearch();
   initialPartyInfo = document.getElementById("party-info").innerHTML;
-  document.getElementById("party-info").innerHTML = '';
-  document.getElementById("table-id").style.display = "none";
+//  document.getElementById("party-info").innerHTML = '';
+  document.getElementById("searchResults").style.display = "none";
  
    }
 
-      function search() {
-     document.getElementById("table-id").style.display = "revert";
-     document.getElementById("searchCounter").style.display = "revert";
-     var searchInput = document.getElementById("searchInput").value.toString().toLowerCase().trim();
-     var searchWords = searchInput.split(/\s+/); // trim by space
-     var searchColumns = [0, 1, 2, 5];
+ function search() {
+  document.getElementById("searchResults").style.display = "block"; // or "flex"
 
-     var resultsArray = searchInput === "" ? [] : data.filter(function(r) {
+  var searchInput = document.getElementById("searchInput").value.toString().toLowerCase().trim();
+  var searchWords = searchInput.split(/\s+/); // trim by space
+  var searchColumns = [0, 1, 2, 5];
 
-       return searchWords.every(function(word) {
-         return searchColumns.some(function(colIndex) {
-           return r[colIndex].toString().toLowerCase().indexOf(word) !== -1;
-         });
-       });
-     });
+  var resultsArray = searchInput === "" ? [] : data.filter(function(r) {
+    return searchWords.every(function(word) {
+      return searchColumns.some(function(colIndex) {
+        return r[colIndex].toString().toLowerCase().indexOf(word) !== -1;
+      });
+    });
+  });
 
-     var recordCount = searchInput === "" ? "" : "Record count: " + resultsArray.length;
-     document.getElementById("searchCounter").textContent = recordCount;
-     var searchResultsBox = document.getElementById("searchResults");
-     var templateBox = document.getElementById("rowTemplate");
-     var template = templateBox.content;
+  var recordCount = searchInput === "" ? "" : "Record count: " + resultsArray.length;
+  
+  var searchResultsBox = document.getElementById("searchResults");
+  var templateBox = document.getElementById("rowTemplate");
+  var template = templateBox;
 
-     searchResultsBox.innerHTML = "";
+  searchResultsBox.innerHTML = "";
 
-     resultsArray.forEach(function(r) {
-       var tr = template.cloneNode(true);
-       var partyIDColumn = tr.querySelector(".partyID");
-       var partyNameColumn = tr.querySelector(".partyName");
-       var partyAddressColumn = tr.querySelector(".partyAddress");
-       var selectButton = tr.querySelector(".select-button");
-       var editButton = tr.querySelector(".edit-button");
+  resultsArray.forEach((r, index) => {
+    const clone = template.content.cloneNode(true);
+    clone.querySelector(".party-code").textContent = r[0];      // Party Code
+    clone.querySelector(".party-name").textContent = r[1];      // Name
+    clone.querySelector(".party-city").textContent = r[5];      // City
 
-       partyIDColumn.textContent = r[0];
-       selectButton.dataset.partyId = r[0];
-       editButton.dataset.partyId = r[0];
-       partyNameColumn.textContent = r[1];
-       partyAddressColumn.textContent = r[2] + " - " + r[5];
+    const card = clone.querySelector(".party-card");
+    card.dataset.partyId = r[0];
 
-       searchResultsBox.appendChild(tr);
-     });
-   }
+    // Alternate background
+    card.style.backgroundColor = index % 2 === 0 ? "#f9f9f9" : "#ffffff";
+
+    // Attach click event to each card
+card.addEventListener("click", function() {
+  showPartyDetails(r[0]);
+});
+
+    searchResultsBox.appendChild(clone);
+  });
+}
 
 
 function setDataForSearch() {
@@ -215,6 +298,79 @@ function setDataForSearch() {
 
 }
 
+
+
+
+// ? This function shows the details view
+function showPartyDetails(partyId) {
+  const party = data.find(p => p[0] === partyId);
+
+  if (party) {
+    // Populate spans
+    document.getElementById("party-code").textContent = party[0];
+    document.getElementById("party-name").textContent = party[1];
+    document.getElementById("party-address").textContent = party[2];
+    document.getElementById("party-city").textContent = party[5];
+    document.getElementById("party-phone").textContent = party[6];
+    document.getElementById("party-gst").textContent = party[7];
+    document.getElementById("party-rate-code").textContent = party[8];
+
+    document.getElementById("save-btn").style.display = "none";
+    document.getElementById("searchInput").style.display = "none";
+    document.getElementById("searchResults").style.display = "none";
+    document.getElementById("party-details").style.display = "block";
+  } else {
+    console.error("Party not found.");
+  }
+}
+
+
+
+
+// Go back to search results
+function goBackToSearch() {
+  document.getElementById("party-details").style.display = "none";
+  document.getElementById("searchResults").style.display = "block";
+  document.getElementById("searchInput").style.display = "block";
+}
+
+
+// Enable editing of party details
+function editParty() {
+  const fields = ["party-name", "party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+
+  fields.forEach(id => {
+    const span = document.getElementById(id);
+    const value = span.textContent;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = value;
+    input.id = id;
+    span.replaceWith(input);
+  });
+
+  document.getElementById("save-btn").style.display = "inline-block";
+}
+
+
+
+// Save the updated party details to Google Sheets
+function saveParty() {
+  const fields = ["party-name", "party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+
+  fields.forEach(id => {
+    const input = document.getElementById(id);
+    const value = input.value;
+    const span = document.createElement("span");
+    span.id = id;
+    span.textContent = value;
+    input.replaceWith(span);
+  });
+
+  document.getElementById("save-btn").style.display = "none";
+
+  // Optionally: send data to backend here
+}
 
 
 
