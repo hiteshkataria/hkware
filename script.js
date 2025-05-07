@@ -8,14 +8,17 @@ window.onload = function () {
   // Check if session exists
   const email = localStorage.getItem('sessionEmail');
   const token = localStorage.getItem('token');
+  console.log(email+token);
   if (email && token) {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&token=${encodeURIComponent(token)}`)
       .then(res => res.json())
       .then(response => {
                 document.getElementById('loadingScreen')?.classList.add('hidden');
         if (response.loggedIn) {
+          console.log("Yes");
           showDashboard(response.email);
         } else {
+          console.log("No");
           localStorage.removeItem('sessionEmail'); // Clear stale session
           localStorage.removeItem('token');
           showLogin();
