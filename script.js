@@ -13,6 +13,7 @@ window.onload = function () {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&token=${encodeURIComponent(token)}`)
       .then(res => res.json())
       .then(response => {
+        console.log("Full response from backend:", response); // 🔍 KEY LOG
                 document.getElementById('loadingScreen')?.classList.add('hidden');
         if (response.loggedIn) {
           console.log("Yes");
