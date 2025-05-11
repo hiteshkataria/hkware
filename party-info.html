@@ -133,6 +133,7 @@ input[readonly] {
 </template>
 
 <div id="searchResults"></div>
+<div id="status-message" style="margin: 10px 0; color: green;"></div>
 
 <div id="party-details" class="container" style="display: none;">
   <button onclick="goBackToSearch()" class="back-button">? Back to Search Results</button>
@@ -421,9 +422,14 @@ function saveParty() {
     .then(res => res.json())
     .then(result => {
       if (result.success) {
-        alert("Party updated successfully!");
+        document.getElementById("status-message").style.color = "green";
+document.getElementById("status-message").textContent = "Party updated successfully!";
+
+		setDataForSearch(); // ?? This will refresh `data` from the backend
       } else {
-        alert("Error updating: " + result.message);
+        document.getElementById("status-message").style.color = "red";
+document.getElementById("status-message").textContent = "Error updating: " + result.message;
+
       }
     })
     .catch(err => {
