@@ -421,9 +421,9 @@ function saveParty() {
   })
     .then(res => res.json())
     .then(result => {
+	    const messageBox = document.getElementById("status-message");
       if (result.success) {
-	      const messageBox = document.getElementById("status-message");
-  messageBox.style.color = "green";
+	        messageBox.style.color = "green";
   messageBox.textContent = "Party updated successfully!";
 
 		setDataForSearch(); // ?? This will refresh `data` from the backend
