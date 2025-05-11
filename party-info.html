@@ -422,18 +422,27 @@ function saveParty() {
     .then(res => res.json())
     .then(result => {
       if (result.success) {
-        document.getElementById("status-message").style.color = "green";
-document.getElementById("status-message").textContent = "Party updated successfully!";
+	      const messageBox = document.getElementById("status-message");
+  messageBox.style.color = "green";
+  messageBox.textContent = "Party updated successfully!";
 
 		setDataForSearch(); // ?? This will refresh `data` from the backend
       } else {
-        document.getElementById("status-message").style.color = "red";
-document.getElementById("status-message").textContent = "Error updating: " + result.message;
-
+  messageBox.style.color = "red";
+  messageBox.textContent = "Error updating: " + result.message;
       }
+	// Auto-hide after 3 seconds
+setTimeout(() => {
+  messageBox.textContent = "";
+}, 3000);    
     })
     .catch(err => {
-      alert("Error: " + err.message);
+	    const messageBox = document.getElementById("status-message");
+messageBox.style.color = "red";
+messageBox.textContent = "Error: " + err.message;
+setTimeout(() => {
+  messageBox.textContent = "";
+}, 3000);
     });
 }
 
