@@ -169,10 +169,12 @@ input[readonly] {
     <span id="party-rate-code"></span>
   </div>
 
-  <div class="form-buttons">
-    <button onclick="editParty()" class="btn btn-primary">Edit</button>
-    <button onclick="saveParty()" class="btn btn-success" id="save-btn" style="display: none;">Save</button>
-  </div>
+<div class="form-buttons">
+  <button onclick="editParty()" class="btn btn-primary" id="edit-btn">Edit</button>
+  <button onclick="saveParty()" class="btn btn-success" id="save-btn" style="display: none;">Save</button>
+  <button onclick="cancelEdit()" class="btn btn-secondary" id="cancel-btn" style="display: none;">Cancel</button>
+</div>
+
 </div>
 
 
@@ -349,30 +351,85 @@ function editParty() {
     span.replaceWith(input);
   });
 
+  document.getElementById("edit-btn").style.display = "none";
   document.getElementById("save-btn").style.display = "inline-block";
+  document.getElementById("cancel-btn").style.display = "inline-block";
+}
+
+function cancelEdit() {
+  const fields = ["party-name", "party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+
+  fields.forEach(id => {
+    const input = document.getElementById(id);
+    if (input && input.tagName === "INPUT") {
+      const span = document.createElement("span");
+      span.id = id;
+      span.textContent = input.value;
+      input.replaceWith(span);
+    }
+  });
+
+  document.getElementById("edit-btn").style.display = "inline-block";
+  document.getElementById("save-btn").style.display = "none";
+  document.getElementById("cancel-btn").style.display = "none";
+
+  goBackToSearch();
 }
 
 
 
 // Save the updated party details to Google Sheets
 function saveParty() {
-  const fields = ["party-name", "party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+  const fields = {
+    "party-name": "partyName",
+    "party-address": "partyAddress",
+    "party-city": "partyCity",
+    "party-phone": "partyPhone",
+    "party-gst": "partyGST",
+    "party-rate-code": "partyRateCode"
+  };
 
-  fields.forEach(id => {
-    const input = document.getElementById(id);
+  const partyId = document.getElementById("party-code").textContent;
+
+  const params = new URLSearchParams();
+  params.append("action", "updateParty");
+  params.append("token", localStorage.getItem("token"));
+  params.append("partyCode", partyId);
+
+  for (const [inputId, paramKey] of Object.entries(fields)) {
+    const input = document.getElementById(inputId);
     const value = input.value;
+    params.append(paramKey, value);
+
     const span = document.createElement("span");
-    span.id = id;
+    span.id = inputId;
     span.textContent = value;
     input.replaceWith(span);
-  });
+  }
 
   document.getElementById("save-btn").style.display = "none";
+  document.getElementById("cancel-btn").style.display = "none";
+  document.getElementById("edit-btn").style.display = "inline-block";
 
-  // Optionally: send data to backend here
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: params.toString()
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        alert("Party updated successfully!");
+      } else {
+        alert("Error updating: " + result.message);
+      }
+    })
+    .catch(err => {
+      alert("Error: " + err.message);
+    });
 }
-
-
 
 
    // For Search 
