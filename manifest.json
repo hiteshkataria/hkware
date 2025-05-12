@@ -1,7 +1,7 @@
 {
   "name": "HK Ware",
   "short_name": "HKWare",
-  "start_url": "/index.html",
+  "start_url": "/hkware/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
