@@ -105,6 +105,7 @@ input[readonly] {
 
       <button onclick="goToDashboard()" class="back-button">? Back to Dashboard</button>
 <div id="app">
+<div id="status-message" style="margin: 10px 0; color: green;"></div>
               <div class="form-group">
 
                 <div class="input-group mb-3">
@@ -133,7 +134,7 @@ input[readonly] {
 </template>
 
 <div id="searchResults"></div>
-<div id="status-message" style="margin: 10px 0; color: green;"></div>
+
 
 <div id="party-details" class="container" style="display: none;">
   <button onclick="goBackToSearch()" class="back-button">? Back to Search Results</button>
@@ -206,6 +207,7 @@ input[readonly] {
      }
    }
          function afterPageLoads() {
+		 
      
   const token = localStorage.getItem('token');
              const email = localStorage.getItem("sessionEmail");
@@ -219,6 +221,7 @@ input[readonly] {
   initialPartyInfo = document.getElementById("party-info").innerHTML;
 //  document.getElementById("party-info").innerHTML = '';
   document.getElementById("searchResults").style.display = "none";
+  document.getElementById("searchInput").focus();
  
    }
 
@@ -252,7 +255,7 @@ input[readonly] {
     clone.querySelector(".party-city").textContent = r[5];      // City
 
     const card = clone.querySelector(".party-card");
-    card.dataset.partyId = r[0];
+    card.dataset.partyCode = r[0];
 
     // Alternate background
     card.style.backgroundColor = index % 2 === 0 ? "#f9f9f9" : "#ffffff";
@@ -305,8 +308,8 @@ function setDataForSearch() {
 
 
 // ? This function shows the details view
-function showPartyDetails(partyId) {
-  const party = data.find(p => p[0] === partyId);
+function showPartyDetails(partyCode) {
+  const party = data.find(p => p[0] === partyCode);
 
   if (party) {
     // Populate spans
@@ -390,12 +393,12 @@ function saveParty() {
     "party-rate-code": "partyRateCode"
   };
 
-  const partyId = document.getElementById("party-code").textContent;
+  const partyCode = document.getElementById("party-code").textContent;
 
   const params = new URLSearchParams();
   params.append("action", "updateParty");
   params.append("token", localStorage.getItem("token"));
-  params.append("partyCode", partyId);
+  params.append("partyCode", partyCode);
 
   for (const [inputId, paramKey] of Object.entries(fields)) {
     const input = document.getElementById(inputId);
@@ -412,6 +415,7 @@ function saveParty() {
   document.getElementById("cancel-btn").style.display = "none";
   document.getElementById("edit-btn").style.display = "inline-block";
 
+    const messageBox = document.getElementById("status-message");
   fetch(SCRIPT_URL, {
     method: "POST",
     headers: {
@@ -420,29 +424,41 @@ function saveParty() {
     body: params.toString()
   })
     .then(res => res.json())
-    .then(result => {
-	    const messageBox = document.getElementById("status-message");
-      if (result.success) {
-	        messageBox.style.color = "green";
-  messageBox.textContent = "Party updated successfully!";
+.then(result => {
 
-		setDataForSearch(); // ?? This will refresh `data` from the backend
-      } else {
-  messageBox.style.color = "red";
-  messageBox.textContent = "Error updating: " + result.message;
-      }
-	// Auto-hide after 3 seconds
+
+  if (result.success) {
+messageBox.style.color = "green";
+messageBox.textContent = `Party "${partyCode}" updated successfully!`;
+
+// Immediately switch views
+goBackToSearch();
+document.getElementById("searchInput").value = ""; // Optional: clear input
+document.getElementById("searchInput").focus();    // Focus back on search
+  document.getElementById("searchResults").innerHTML = "";
+
 setTimeout(() => {
-  messageBox.textContent = "";
-}, 3000);    
-    })
+  messageBox.textContent = ""; // Clear success message after 2 sec
+  setDataForSearch();          // Refresh party list
+}, 5000);
+
+  } else {
+    messageBox.style.color = "red";
+    messageBox.textContent = "Error updating: " + result.message;
+
+    setTimeout(() => {
+      messageBox.textContent = "";
+    }, 5000);
+  }
+})
+
     .catch(err => {
-	    const messageBox = document.getElementById("status-message");
+
 messageBox.style.color = "red";
 messageBox.textContent = "Error: " + err.message;
 setTimeout(() => {
   messageBox.textContent = "";
-}, 3000);
+}, 5000);
     });
 }
 
