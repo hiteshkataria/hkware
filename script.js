@@ -4,48 +4,51 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaSXGbJPp6MrKhztSUegMFsuR50WoxsQp7sld2mpWH3kVLRxAdxb4NjleFGhCcIS-ztA/exec';
 
 window.onload = function () {
-  // Show loading screen
-  document.getElementById('loadingScreen')?.classList.remove('hidden');
+  showLoader();
 
-  // Check if session exists
   const email = localStorage.getItem('sessionEmail');
   const token = localStorage.getItem('token');
-  console.log(email+token);
+
   if (email && token) {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&token=${encodeURIComponent(token)}`)
       .then(res => res.json())
       .then(response => {
-        console.log("Full response from backend:", response); // ?? KEY LOG
-                document.getElementById('loadingScreen')?.classList.add('hidden');
-				document.getElementById('mainContent')?.classList.remove('hidden'); // ? SHOW AFTER LOADING
         if (response.loggedIn) {
-          console.log("Yes");
           showDashboard(response.email);
         } else {
-          console.log("No");
-          localStorage.removeItem('sessionEmail'); // Clear stale session
+          localStorage.removeItem('sessionEmail');
           localStorage.removeItem('token');
           showLogin();
         }
       })
       .catch(() => {
-                document.getElementById('loadingScreen')?.classList.add('hidden');
-				document.getElementById('mainContent')?.classList.remove('hidden'); // ? SHOW AFTER LOADING
         document.getElementById('error').innerText = "Couldn't verify session.";
         showLogin();
+      })
+      .finally(() => {
+        hideLoader();
       });
   } else {
-        document.getElementById('loadingScreen')?.classList.add('hidden');
-		document.getElementById('mainContent')?.classList.remove('hidden'); // ? SHOW AFTER LOADING
+    hideLoader();
     showLogin();
   }
 
-  // Set up login form handler
   document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     login();
   });
 };
+
+
+function showLoader() {
+  document.getElementById('loadingScreen')?.classList.remove('hidden');
+  document.getElementById('mainContent')?.classList.add('hidden');
+}
+
+function hideLoader() {
+  document.getElementById('loadingScreen')?.classList.add('hidden');
+  document.getElementById('mainContent')?.classList.remove('hidden');
+}
 
 
 
