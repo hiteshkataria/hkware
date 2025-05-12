@@ -29,8 +29,8 @@ window.onload = function () {
         hideLoader();
       });
   } else {
-    hideLoader();
     showLogin();
+	    hideLoader();
   }
 
   document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -42,7 +42,7 @@ window.onload = function () {
 
 function showLoader() {
   document.getElementById('loadingScreen')?.classList.remove('hidden');
-  document.getElementById('mainContent')?.classList.add('hidden');
+//  document.getElementById('mainContent')?.classList.add('hidden');
 }
 
 function hideLoader() {
@@ -53,37 +53,41 @@ function hideLoader() {
 
 
 function login() {
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+  showLoader();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
   const loginButton = document.getElementById('loginButton');
   const loginButtonText = document.getElementById('loginButtonText');
   const loginSpinner = document.getElementById('loginSpinner');
 
+  // UI: disable button + show spinner
   loginButton.disabled = true;
   loginButtonText.classList.add('hidden');
   loginSpinner.classList.remove('hidden');
 
+
   fetch(`${SCRIPT_URL}?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
     .then(res => res.json())
     .then(response => {
+      if (response.success) {
+        localStorage.setItem('sessionEmail', response.email);
+        localStorage.setItem('token', response.token);
+        showDashboard(response.email);
+      } else {
+        document.getElementById('error').innerText = response.message || 'Login failed.';
+      }
+    })
+    .catch(() => {
+      document.getElementById('error').innerText = 'Login request failed.';
+    })
+    .finally(() => {
+      // Re-enable button and hide spinner
       loginButton.disabled = false;
       loginButtonText.classList.remove('hidden');
       loginSpinner.classList.add('hidden');
 
-      if (response.success) {
-         localStorage.setItem('sessionEmail', response.email);
-        localStorage.setItem('token', response.token); // or response.token if available
-        showDashboard(response.email);
-        document.getElementById('error').innerText = "";
-      } else {
-        document.getElementById('error').innerText = response.message;
-      }
-    })
-    .catch(err => {
-      loginButton.disabled = false;
-      loginButtonText.classList.remove('hidden');
-      loginSpinner.classList.add('hidden');
-      document.getElementById('error').innerText = 'Network error. Please try again.';
+      hideLoader();
     });
 }
 
@@ -94,16 +98,24 @@ function logout() {
     return;
   }
 
+  showLoader(); // Show loading indicator
+
   fetch(`${SCRIPT_URL}?action=logout&email=${encodeURIComponent(email)}`)
     .then(() => {
       localStorage.removeItem('sessionEmail');
+      localStorage.removeItem('token'); // Optional: clean token as well
       showLogin();
     })
     .catch(() => {
       localStorage.removeItem('sessionEmail');
+      localStorage.removeItem('token');
       showLogin();
+    })
+    .finally(() => {
+      hideLoader(); // Always hide loader, success or failure
     });
 }
+
 
 function showLogin() {
   document.getElementById('loginSection').classList.remove('hidden');
@@ -112,10 +124,12 @@ function showLogin() {
 }
 
 function showDashboard(email) {
-  document.getElementById('loginSection').classList.add('hidden');
-  document.getElementById('dashboardSection').classList.remove('hidden');
   document.getElementById('userEmail').innerText = email;
+  document.getElementById('loginSection')?.classList.add('hidden');
+  document.getElementById('dashboardSection')?.classList.remove('hidden');
+  document.getElementById('pageContentSection')?.classList.add('hidden');
 }
+
 
 function openPage(pageName) {
   switch(pageName) {
