@@ -1,61 +1,77 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Login / Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="manifest" href="manifest.json">
-     <link rel="stylesheet" href="styles.css" />
 
-  </head>
-  <body>
-    <div id="loadingScreen">
-  <img src="images/icon-192x192.png" alt="Loading..." class="loading-icon" />
-</div>
+<head>
+  <title>Login / Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+	<link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css" />
 
-<!-- Container for the login form -->
-<div class="container">
-  <!-- Login Section -->
-  <div id="loginSection" class="hidden"> <!-- Add hidden class -->
-        <h2>Login</h2>
-        <div class="error" id="error"></div>
-         <form id="loginForm">
+</head>
+
+<body>
+  <div id="loadingScreen">
+    <img src="images/icon-192x192.png" alt="Loading..." class="loading-icon" />
+  </div>
+
+    <!-- NEW WRAPPER for all visible content -->
+  <div id="mainContent" class="hidden">
+  <!-- Container for the login form -->
+  <div class="container">
+    <!-- Login Section -->
+    <div id="loginSection" class="hidden"> <!-- Add hidden class -->
+      <h2>Login</h2>
+      <div class="error" id="error"></div>
+      <form id="loginForm">
         <input type="text" id="email" placeholder="Email" required />
         <input type="password" id="password" placeholder="Password" required />
         <button type="submit" id="loginButton">
           <span id="loginButtonText">Login</span>
           <span id="loginSpinner" class="spinner hidden"></span>
         </button>
-        </form>
+      </form>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="hidden">
+      <div class="header-row">
+        <h2>Welcome, <span id="userEmail"></span>!</h2>
+        <button onclick="logout()" class="logout-button">Logout</button>
       </div>
 
-  <!-- Dashboard Section -->
-  <div id="dashboardSection" class="hidden">
-  <div class="header-row">
-    <h2>Welcome, <span id="userEmail"></span>!</h2>
-    <button onclick="logout()" class="logout-button">Logout</button>
-  </div>
-
-  <div class="card-container">
+      <div class="card-container">
         <div class="card-grid">
-          <div class="card" onclick="openPage('partyInfo')"><h3>Party Info</h3></div>
-          <div class="card" onclick="openPage('purchase')"><h3>Purchase</h3></div>
-          <div class="card" onclick="openPage('sales')"><h3>Sales</h3></div>
-          <div class="card" onclick="openPage('return')"><h3>Return</h3></div>
-          <div class="card" onclick="openPage('report')"><h3>Report</h3></div>
+          <div class="card" onclick="openPage('partyInfo')">
+            <h3>Party Info</h3>
+          </div>
+          <div class="card" onclick="openPage('purchase')">
+            <h3>Purchase</h3>
+          </div>
+          <div class="card" onclick="openPage('sales')">
+            <h3>Sales</h3>
+          </div>
+          <div class="card" onclick="openPage('return')">
+            <h3>Return</h3>
+          </div>
+          <div class="card" onclick="openPage('report')">
+            <h3>Report</h3>
+          </div>
         </div>
       </div>
     </div>
 
-  <!-- Page Content Section -->
-  <div id="pageContentSection" class="hidden">
-  <button onclick="backToDashboard()" class="back-button">? Back</button>
-  <h2 id="pageTitle"></h2>
-  <p id="pageContent"></p>
-</div>
-
-
+    <!-- Page Content Section -->
+    <div id="pageContentSection" class="hidden">
+      <button onclick="backToDashboard()" class="back-button">? Back</button>
+      <h2 id="pageTitle"></h2>
+      <p id="pageContent"></p>
     </div>
-<script src="script.js"></script>
+
+
+  </div>
+    </div>
+  <script src="script.js"></script>
 </body>
+
 </html>
