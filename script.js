@@ -15,8 +15,9 @@ window.onload = function () {
     fetch(`${SCRIPT_URL}?action=isLoggedIn&token=${encodeURIComponent(token)}`)
       .then(res => res.json())
       .then(response => {
-        console.log("Full response from backend:", response); // 🔍 KEY LOG
+        console.log("Full response from backend:", response); // ?? KEY LOG
                 document.getElementById('loadingScreen')?.classList.add('hidden');
+				document.getElementById('mainContent')?.classList.remove('hidden'); // ? SHOW AFTER LOADING
         if (response.loggedIn) {
           console.log("Yes");
           showDashboard(response.email);
@@ -29,11 +30,13 @@ window.onload = function () {
       })
       .catch(() => {
                 document.getElementById('loadingScreen')?.classList.add('hidden');
+				document.getElementById('mainContent')?.classList.remove('hidden'); // ? SHOW AFTER LOADING
         document.getElementById('error').innerText = "Couldn't verify session.";
         showLogin();
       });
   } else {
         document.getElementById('loadingScreen')?.classList.add('hidden');
+		document.getElementById('mainContent')?.classList.remove('hidden'); // ? SHOW AFTER LOADING
     showLogin();
   }
 
