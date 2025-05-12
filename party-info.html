@@ -3,8 +3,8 @@
   <head>
     <title>Party Info</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	      <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-	  <link rel="manifest" href="manifest.json">
+	    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+		<link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css" />
     <style>
     /* Container for the cards */
@@ -99,6 +99,11 @@ input[readonly] {
     </style>
   </head>
   <body>
+  <div id="loadingScreen">
+    <img src="images/icon-192x192.png" alt="Loading..." class="loading-icon" />
+  </div>
+      <!-- NEW WRAPPER for all visible content -->
+  <div id="mainContent" class="hidden">
     <div class="container">
       <div class="header-row">
         <h2>Party Info</h2>
@@ -186,7 +191,7 @@ input[readonly] {
 
 </div>
 
-
+</div>
 
     <script src="script.js"></script>
     <script src="auth.js"></script>
@@ -280,9 +285,12 @@ function setDataForSearch() {
     return;
   }
 
+  showLoader(); // Show loading indicator
+
   const params = new URLSearchParams();
   params.append('action', 'getPartyList');
   params.append('token', token);
+
   fetch(SCRIPT_URL, {
     method: 'POST',
     headers: {
@@ -290,9 +298,7 @@ function setDataForSearch() {
     },
     body: params.toString()
   })
-  .then(response => {
-    return response.json();
-  })
+  .then(response => response.json())
   .then(result => {
     if (result.success) {
       data = result.data.slice();
@@ -302,8 +308,12 @@ function setDataForSearch() {
     }
   })
   .catch(error => {
+    alert("An error occurred while fetching data.");
+    console.error(error);
+  })
+  .finally(() => {
+    hideLoader(); // Always hide loader
   });
-
 }
 
 
@@ -417,7 +427,10 @@ function saveParty() {
   document.getElementById("cancel-btn").style.display = "none";
   document.getElementById("edit-btn").style.display = "inline-block";
 
-    const messageBox = document.getElementById("status-message");
+  const messageBox = document.getElementById("status-message");
+
+  showLoader(); // Show loading screen
+
   fetch(SCRIPT_URL, {
     method: "POST",
     headers: {
@@ -426,42 +439,39 @@ function saveParty() {
     body: params.toString()
   })
     .then(res => res.json())
-.then(result => {
+    .then(result => {
+      if (result.success) {
+        messageBox.style.color = "green";
+        messageBox.textContent = `Party "${partyCode}" updated successfully!`;
 
+        goBackToSearch();
+        document.getElementById("searchInput").value = "";
+        document.getElementById("searchInput").focus();
+        document.getElementById("searchResults").innerHTML = "";
+        setDataForSearch();
 
-  if (result.success) {
-messageBox.style.color = "green";
-messageBox.textContent = `Party "${partyCode}" updated successfully!`;
-
-// Immediately switch views
-goBackToSearch();
-document.getElementById("searchInput").value = ""; // Optional: clear input
-document.getElementById("searchInput").focus();    // Focus back on search
-  document.getElementById("searchResults").innerHTML = "";
-
-setTimeout(() => {
-  messageBox.textContent = ""; // Clear success message after 2 sec
-  setDataForSearch();          // Refresh party list
-}, 5000);
-
-  } else {
-    messageBox.style.color = "red";
-    messageBox.textContent = "Error updating: " + result.message;
-
-    setTimeout(() => {
-      messageBox.textContent = "";
-    }, 5000);
-  }
-})
-
+      } else {
+        messageBox.style.color = "red";
+        messageBox.textContent = "Error updating: " + result.message;
+      }
+    })
     .catch(err => {
-
-messageBox.style.color = "red";
-messageBox.textContent = "Error: " + err.message;
-setTimeout(() => {
-  messageBox.textContent = "";
-}, 5000);
+      messageBox.style.color = "red";
+      messageBox.textContent = "Error: " + err.message;
+    })
+    .finally(() => {
+      hideLoader(); // Always hide loader at end
+      document.addEventListener("click", clearMessage);
+      document.addEventListener("input", clearMessage);
     });
+}
+
+// Function to clear the message on user interaction
+function clearMessage() {
+  const messageBox = document.getElementById("status-message");
+  messageBox.textContent = ""; // Clear the message
+  document.removeEventListener("click", clearMessage);
+  document.removeEventListener("input", clearMessage);
 }
 
 
