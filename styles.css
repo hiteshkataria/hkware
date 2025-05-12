@@ -63,7 +63,7 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: white;
+  background: rgba(255, 255, 255, 0.2); /* Lighter white background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,6 +71,22 @@ button:hover {
   z-index: 9999;
 }
 
+.loading-icon {
+  width: 48px;
+  height: 48px;
+  animation: pulse 1.5s ease-in-out infinite;
+  display: block;
+  margin: 100px auto;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* Zoom out slightly */
+  }
+}
 
 /* Spinner */
 .spinner {
