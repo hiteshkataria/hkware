@@ -228,6 +228,7 @@ input[readonly] {
   initialPartyInfo = document.getElementById("party-info").innerHTML;
 //  document.getElementById("party-info").innerHTML = '';
   document.getElementById("searchResults").style.display = "none";
+  document.getElementById("mainContent").classList.remove("hidden");
   document.getElementById("searchInput").focus();
  
    }
@@ -446,7 +447,7 @@ function saveParty() {
 
         goBackToSearch();
         document.getElementById("searchInput").value = "";
-        document.getElementById("searchInput").focus();
+//        document.getElementById("searchInput").focus();
         document.getElementById("searchResults").innerHTML = "";
         setDataForSearch();
 
@@ -483,5 +484,14 @@ function clearMessage() {
 
       
     </script>
+
+<!--Place this after script.js to show Login upon click of Logout from non index page -->
+	<script>
+  function showLogin() {
+    window.location.href = 'index.html';
+  }
+</script>
+
+	
   </body>
 </html>
