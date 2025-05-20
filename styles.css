@@ -199,15 +199,35 @@ button:hover {
   color: #333;
   text-decoration: none;
   margin: 10px;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
+
+.home-icon, 
+.back-icon {
+  color:blue;
+}
+
+.logout-icon,
+.cancel-icon {
+  color: red;
+}
+
+.save-icon,
+.edit-icon {
+  color: green;
+}
+
+
+
 .logout-icon:hover,
 .home-icon:hover,
 .back-icon:hover,
 .edit-icon:hover,
 .save-icon:hover,
 .cancel-icon:hover {
-  color: red;
+
   cursor: pointer;
+  transform: scale(1.3);
 }
 
 .logo {
