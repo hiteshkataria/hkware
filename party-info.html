@@ -154,9 +154,15 @@ input[readonly] {
 
 
 <div id="party-details" class="container" style="display: none;">
-  <button onclick="goBackToSearch()" class="back-button">? Back to Search Results</button>
-
-  <h2>Party Details</h2>
+   <div class="header-row">
+    <a href="javascript:void(0);" onclick="goBackToSearch()" class="back-icon" title="Back to Search Results">
+    <i class="fas fa-circle-arrow-left"></i>
+  </a>
+  
+    <a href="javascript:void(0);" onclick="editParty()" class="edit-icon" id="edit-btn" title="Edit">
+    <i class="fas fa-pen-to-square"></i>
+  </a>
+</div>
 
   <div id="party-info" class="details-grid">
   <div class="form-row">
@@ -189,9 +195,12 @@ input[readonly] {
   </div>
 
 <div class="form-buttons">
-  <button onclick="editParty()" class="btn btn-primary" id="edit-btn">Edit</button>
-  <button onclick="saveParty()" class="btn btn-success" id="save-btn" style="display: none;">Save</button>
-  <button onclick="cancelEdit()" class="btn btn-secondary" id="cancel-btn" style="display: none;">Cancel</button>
+ <a href="javascript:void(0);" onclick="saveParty()" class="save-icon" id="save-btn" style="display: none;" title="Save">
+    <i class="fas fa-check"></i>
+  </a>
+  <a href="javascript:void(0);" onclick="cancelEdit()" class="cancel-icon" id="cancel-btn" style="display: none;" title="Cancel">
+    <i class="fas fa-xmark"></i>
+  </a>
 </div>
 
 </div>
