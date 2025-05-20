@@ -198,3 +198,12 @@ button:hover {
   color: red;
   cursor: pointer;
 }
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px; /* Adjust logo size */
+}
