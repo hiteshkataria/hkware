@@ -189,15 +189,23 @@ button:hover {
 }
 
 .logout-icon,
-.home-icon {
+.home-icon,
+.back-icon,
+.edit-icon,
+.save-icon,
+.cancel-icon
+ {
   font-size: 24px;
   color: #333;
   text-decoration: none;
   margin: 10px;
 }
-
 .logout-icon:hover,
-.home-icon:hover {
+.home-icon:hover,
+.back-icon:hover,
+.edit-icon:hover,
+.save-icon:hover,
+.cancel-icon:hover {
   color: red;
   cursor: pointer;
 }
