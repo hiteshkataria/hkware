@@ -7,6 +7,8 @@
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 	<link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
 </head>
 
@@ -37,7 +39,9 @@
     <div id="dashboardSection" class="hidden">
       <div class="header-row">
         <h2>Welcome, <span id="userEmail"></span>!</h2>
-        <button onclick="logout()" class="logout-button">Logout</button>
+        <a href="javascript:void(0);" onclick="logout()" class="logout-icon" title="Logout">
+          <i class="fas fa-right-from-bracket"></i>
+        </a>
       </div>
 
       <div class="card-container">
