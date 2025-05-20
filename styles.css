@@ -196,7 +196,7 @@ button:hover {
 .cancel-icon
  {
   font-size: 24px;
-  color: #333;
+  color: #aa58f1;
   text-decoration: none;
   margin: 10px;
   transition: transform 0.2s ease, color 0.2s ease;
@@ -204,17 +204,17 @@ button:hover {
 
 .home-icon, 
 .back-icon {
-  color:blue;
+  color: #0000ff;
 }
 
 .logout-icon,
 .cancel-icon {
-  color: red;
+  color: #ff0000;
 }
 
 .save-icon,
 .edit-icon {
-  color: green;
+  color: #008000;
 }
 
 
