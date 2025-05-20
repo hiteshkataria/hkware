@@ -188,23 +188,15 @@ button:hover {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.logout-icon {
-  font-size: 24px;
-  color: #333;
-  text-decoration: none;
-  margin: 10px;
-}
-.logout-icon:hover {
-  color: red;
-  cursor: pointer;
-}
-
+.logout-icon,
 .home-icon {
   font-size: 24px;
   color: #333;
   text-decoration: none;
   margin: 10px;
 }
+
+.logout-icon:hover,
 .home-icon:hover {
   color: red;
   cursor: pointer;
