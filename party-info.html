@@ -6,7 +6,8 @@
 	    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 		<link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css" />
-    <style>
+	      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <style>
     /* Container for the cards */
 #searchResults {
   display: block;
@@ -105,12 +106,19 @@ input[readonly] {
       <!-- NEW WRAPPER for all visible content -->
   <div id="mainContent" class="hidden">
     <div class="container">
+	    <div class="header">
+        <img src="images/icon-192x192.png" alt="Logo" class="logo">
+      </div>
       <div class="header-row">
         <h2>Party Info</h2>
-        <button onclick="logout()" class="logout-button">Logout</button>
+	      <a href="javascript:void(0);" onclick="logout()" class="logout-icon" title="Logout">
+          <i class="fas fa-right-from-bracket"></i>
+        </a>
       </div>
 
-      <button onclick="goToDashboard()" class="back-button">? Back to Dashboard</button>
+	    <a href="javascript:void(0);" onclick="goToDashboard()" class="back-icon" title="Back to Dashboard">
+        <i class="fas fa-backward"></i>
+      </a>
 <div id="app">
 <div id="status-message" style="margin: 10px 0; color: green;"></div>
               <div class="form-group">
