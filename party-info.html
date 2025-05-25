@@ -335,21 +335,27 @@ function setDataForSearch() {
 }
 
 
+// Go back to search results
+function goBackToSearch() {
+  document.getElementById("party-details").style.display = "none";
+  document.getElementById("searchResults").style.display = "block";
+  document.getElementById("searchInput").style.display = "block";
+}
 
 
-// ? This function shows the details view
+// Show party details (read-only view)
 function showPartyDetails(partyCode) {
   const party = data.find(p => p[0] === partyCode);
 
   if (party) {
-    // Populate spans
     document.getElementById("party-code").textContent = party[0];
-    document.getElementById("party-name").textContent = party[1];
+    document.getElementById("party-name").textContent = party[1]; // with M/s.
+    document.getElementById("party-name").dataset.rawName = party[1].replace(/^M\/s\.\s*/i, ""); // Save raw name
     document.getElementById("party-address").textContent = party[2];
     document.getElementById("party-city").textContent = party[5];
     document.getElementById("party-phone").textContent = party[6];
-    document.getElementById("party-gst").textContent = party[7];
-    document.getElementById("party-rate-code").textContent = party[8];
+    document.getElementById("party-gst").textContent = party[12];
+    document.getElementById("party-rate-code").textContent = party[26];
 
     document.getElementById("save-btn").style.display = "none";
     document.getElementById("searchInput").style.display = "none";
@@ -360,22 +366,21 @@ function showPartyDetails(partyCode) {
   }
 }
 
-
-
-
-// Go back to search results
-function goBackToSearch() {
-  document.getElementById("party-details").style.display = "none";
-  document.getElementById("searchResults").style.display = "block";
-  document.getElementById("searchInput").style.display = "block";
-}
-
-
-// Enable editing of party details
+// Enable editing (disable editing for name)
 function editParty() {
-  const fields = ["party-name", "party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+  const editableFields = ["party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
 
-  fields.forEach(id => {
+  // Disable editing for name, but keep it visible
+  const nameSpan = document.getElementById("party-name");
+  const nameText = nameSpan.textContent;
+  const newSpan = document.createElement("span");
+  newSpan.id = "party-name";
+  newSpan.textContent = nameText;
+  newSpan.dataset.rawName = nameSpan.dataset.rawName;
+  nameSpan.replaceWith(newSpan);
+
+  // Replace other fields with input
+  editableFields.forEach(id => {
     const span = document.getElementById(id);
     const value = span.textContent;
     const input = document.createElement("input");
@@ -390,10 +395,11 @@ function editParty() {
   document.getElementById("cancel-btn").style.display = "inline-block";
 }
 
+// Cancel editing and restore spans (including M/s. prefix)
 function cancelEdit() {
-  const fields = ["party-name", "party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+  const editableFields = ["party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
 
-  fields.forEach(id => {
+  editableFields.forEach(id => {
     const input = document.getElementById(id);
     if (input && input.tagName === "INPUT") {
       const span = document.createElement("span");
@@ -403,6 +409,14 @@ function cancelEdit() {
     }
   });
 
+  // Restore party name span (with M/s.)
+  const nameSpan = document.getElementById("party-name");
+  const newSpan = document.createElement("span");
+  newSpan.id = "party-name";
+  newSpan.textContent = "M/s. " + nameSpan.dataset.rawName;
+  newSpan.dataset.rawName = nameSpan.dataset.rawName;
+  nameSpan.replaceWith(newSpan);
+
   document.getElementById("edit-btn").style.display = "inline-block";
   document.getElementById("save-btn").style.display = "none";
   document.getElementById("cancel-btn").style.display = "none";
@@ -410,12 +424,9 @@ function cancelEdit() {
   goBackToSearch();
 }
 
-
-
-// Save the updated party details to Google Sheets
+// Save updates to backend (send name without M/s.)
 function saveParty() {
-  const fields = {
-    "party-name": "partyName",
+  const fieldMap = {
     "party-address": "partyAddress",
     "party-city": "partyCity",
     "party-phone": "partyPhone",
@@ -424,36 +435,44 @@ function saveParty() {
   };
 
   const partyCode = document.getElementById("party-code").textContent;
+  const rawName = document.getElementById("party-name").dataset.rawName; // without M/s.
 
   const params = new URLSearchParams();
   params.append("action", "updateParty");
   params.append("token", localStorage.getItem("token"));
   params.append("partyCode", partyCode);
+  params.append("partyName", rawName); // Send without M/s.
 
-  for (const [inputId, paramKey] of Object.entries(fields)) {
+  for (const [inputId, paramKey] of Object.entries(fieldMap)) {
     const input = document.getElementById(inputId);
     const value = input.value;
     params.append(paramKey, value);
 
+    // Replace with span
     const span = document.createElement("span");
     span.id = inputId;
     span.textContent = value;
     input.replaceWith(span);
   }
 
+  // Replace name input with span (if needed)
+  const nameSpan = document.getElementById("party-name");
+  const newSpan = document.createElement("span");
+  newSpan.id = "party-name";
+  newSpan.textContent = "M/s. " + rawName;
+  newSpan.dataset.rawName = rawName;
+  nameSpan.replaceWith(newSpan);
+
   document.getElementById("save-btn").style.display = "none";
   document.getElementById("cancel-btn").style.display = "none";
   document.getElementById("edit-btn").style.display = "inline-block";
 
   const messageBox = document.getElementById("status-message");
-
-  showLoader(); // Show loading screen
+  showLoader();
 
   fetch(SCRIPT_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: params.toString()
   })
     .then(res => res.json())
@@ -461,13 +480,10 @@ function saveParty() {
       if (result.success) {
         messageBox.style.color = "green";
         messageBox.textContent = `Party "${partyCode}" updated successfully!`;
-
         goBackToSearch();
         document.getElementById("searchInput").value = "";
-//        document.getElementById("searchInput").focus();
         document.getElementById("searchResults").innerHTML = "";
         setDataForSearch();
-
       } else {
         messageBox.style.color = "red";
         messageBox.textContent = "Error updating: " + result.message;
@@ -478,7 +494,7 @@ function saveParty() {
       messageBox.textContent = "Error: " + err.message;
     })
     .finally(() => {
-      hideLoader(); // Always hide loader at end
+      hideLoader();
       document.addEventListener("click", clearMessage);
       document.addEventListener("input", clearMessage);
     });
