@@ -1,214 +1,335 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Party Info</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-		<link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="styles.css" />
-	      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <style>
+
+<head>
+  <title>Party Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
     /* Container for the cards */
-#searchResults {
-  display: block;
-  margin-top: 20px;
-}
+    #searchResults {
+      display: block;
+      margin-top: 20px;
+    }
 
-/* Party Card */
-.party-card {
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+    /* Party Card */
+    .party-card {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
-/* Hover Effect */
-.party-card:hover {
-  background-color: #f0f0f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+    /* Hover Effect */
+    .party-card:hover {
+      background-color: #f0f0f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-/* Left section for Party Code */
-.party-card .left {
-  width: 90px;
-  font-weight: bold;
-  font-size: 16px;
-  color: #333;
-  flex-shrink: 0;
-}
+    /* Left section for Party Code */
+    .party-card .left {
+      width: 90px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      flex-shrink: 0;
+    }
 
-/* Right section for Name and City */
-.party-card .right {
-  margin-left: 20px;
-  flex-grow: 1;
-}
+    /* Right section for Name and City */
+    .party-card .right {
+      margin-left: 20px;
+      flex-grow: 1;
+    }
 
-.party-name {
-  font-size: 18
-}
+    .party-name {
+      font-size: 18
+    }
 
-.details-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  max-width: 600px;
-  margin: auto;
-}
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 600px;
+      margin: auto;
+    }
 
-.form-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.form-row label {
-  width: 30%;
-  font-weight: bold;
-}
+    .form-row label {
+      width: 30%;
+      font-weight: bold;
+    }
 
-.form-row span,
-.form-row input {
-  width: 65%;
-  font-size: 14px;
-}
+    .form-row span,
+    .form-row input {
+      width: 65%;
+      font-size: 14px;
+    }
 
-.form-row input {
-  width: 65%;
-  padding: 6px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    .form-row input {
+      width: 65%;
+      padding: 6px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-.form-buttons {
-  text-align: center;
-  margin-top: 20px;
-}
+    .form-buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
 
-input[readonly] {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
+    input[readonly] {
+      background-color: #f5f5f5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
 
-    </style>
-  </head>
-  <body>
+<body>
   <div id="loadingScreen">
     <img src="images/icon-192x192.png" alt="Loading..." class="loading-icon" />
   </div>
-      <!-- NEW WRAPPER for all visible content -->
+  <!-- NEW WRAPPER for all visible content -->
   <div id="mainContent" class="hidden">
     <div class="container">
       <div class="header-row">
         <a href="javascript:void(0);" onclick="goToDashboard()" class="home-icon" title="Home">
-        <img src="images/icon-192x192.png" alt="Logo" class="logo">
-      </a>
-        <h2>Party Info</h2>
-	      <div class="icon-group">
-		      	      <a href="javascript:void(0);" onclick="logout()" class="logout-icon" title="Logout">
-          <i class="fas fa-right-from-bracket"></i>
+          <img src="images/icon-192x192.png" alt="Logo" class="logo">
         </a>
+        <h2>Party Info</h2>
+        <div class="icon-group">
+          <a href="javascript:void(0);" onclick="logout()" class="logout-icon" title="Logout">
+            <i class="fas fa-right-from-bracket"></i>
+          </a>
+        </div>
       </div>
+
+
+      <div id="app">
+        <div id="status-message" style="margin: 10px 0; color: green;"></div>
+        <div class="form-group">
+          <!-- Add Party Icon -->
+          <a href="javascript:void(0);" onclick="showAddPartyForm()" class="add-party-icon" id="add-btn"
+            style="display: none;" title="Add Party">
+            <i class="fas fa-plus-circle"></i>
+          </a>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="search Party... ">
+            <div class="input-group-append">
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+
+        <template id="rowTemplate">
+          <div class="party-card">
+            <div class="left">
+              <div class="party-code"></div>
+            </div>
+            <div class="right">
+              <div class="party-name"></div>
+              <div class="party-city"></div>
+            </div>
+          </div>
+        </template>
+
+        <div id="searchResults"></div>
+
+
+        <div id="party-details" class="container" style="display: none;">
+          <div class="header-row">
+            <a href="javascript:void(0);" onclick="goBackToSearch()" class="back-icon" id="back-btn"
+              title="Back to Search Results">
+              <i class="fas fa-arrow-left"></i>
+            </a>
+
+            <a href="javascript:void(0);" onclick="editParty()" class="edit-icon" id="edit-btn" title="Edit">
+              <i class="fas fa-pen-to-square"></i>
+            </a>
+          </div>
+
+          <div id="party-info" class="details-grid">
+            <div class="form-row">
+              <label>Party Code:</label>
+              <span id="party-code"></span>
+            </div>
+            <div class="form-row">
+              <label>Party Name:</label>
+              <span id="party-name"></span>
+            </div>
+            <div class="form-row">
+              <label>Address:</label>
+              <span id="party-address"></span>
+            </div>
+            <div class="form-row">
+              <label>City:</label>
+              <span id="party-city"></span>
+            </div>
+            <div class="form-row">
+              <label>Phone:</label>
+              <span id="party-phone"></span>
+            </div>
+            <div class="form-row">
+              <label>GST Number:</label>
+              <span id="party-gst"></span>
+            </div>
+            <div class="form-row">
+              <label>Rate Code:</label>
+              <span id="party-rate-code"></span>
+            </div>
+
+            <div class="form-buttons">
+              <a href="javascript:void(0);" onclick="saveParty()" class="save-icon" id="save-btn" style="display: none;"
+                title="Save">
+                <i class="fas fa-check"></i>
+              </a>
+              <a href="javascript:void(0);" onclick="cancelEdit()" class="cancel-icon" id="cancel-btn"
+                style="display: none;" title="Cancel">
+                <i class="fas fa-xmark"></i>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Add Party Form -->
+        <div id="add-party-form" class="container" style="display: none;">
+          <div class="header-row">
+            <h4>Add New Party</h4>
+          </div>
+
+          <div id="add-party-details" class="details-grid">
+            <div class="form-row">
+              <label>Party Name:</label>
+              <input type="text" id="new-party-name" placeholder="Enter Party Name" required>
+            </div>
+            <div class="form-row">
+              <label>Address:</label>
+              <input type="text" id="new-party-address" placeholder="Enter Address">
+            </div>
+            <div class="form-row">
+              <label>City:</label>
+              <input type="text" id="new-party-city" placeholder="Enter City" required>
+            </div>
+            <div class="form-row">
+              <label>Phone:</label>
+              <input type="text" id="new-party-phone" placeholder="Enter Phone">
+            </div>
+            <div class="form-row">
+              <label>GST Number:</label>
+              <input type="text" id="new-party-gst" placeholder="Enter GST Number">
+            </div>
+            <div class="form-row">
+              <label>Rate Code:</label>
+              <input type="text" id="new-party-rate-code" placeholder="Enter Rate Code">
+            </div>
+          </div>
+
+          <div class="form-buttons">
+            <a href="javascript:void(0);" onclick="saveNewParty()" class="save-icon" title="Save">
+              <i class="fas fa-check"></i>
+            </a>
+            <a href="javascript:void(0);" onclick="cancelAddParty()" class="cancel-icon" title="Cancel">
+              <i class="fas fa-xmark"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Duplicate Confirmation Modal -->
+        <div id="duplicateConfirmationModal" class="modal" style="display: none;">
+          <div class="modal-content">
+            <h3>Duplicate Party Detected</h3>
+            <p>A party with the same Name and City already exists. Do you want to proceed?</p>
+            <div class="modal-buttons">
+              <button id="confirmDuplicate" class="btn btn-primary">Proceed</button>
+              <button id="cancelDuplicate" class="btn btn-secondary">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
-
-<div id="app">
-<div id="status-message" style="margin: 10px 0; color: green;"></div>
-              <div class="form-group">
-
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" id="searchInput" placeholder="search Party... ">
-                  <div class="input-group-append">
-                   
-                  </div>
-                </div>
-
-
-              </div>
-
-
-
-
-<template id="rowTemplate">
-  <div class="party-card">
-    <div class="left">
-      <div class="party-code"></div>
     </div>
-    <div class="right">
-      <div class="party-name"></div>
-      <div class="party-city"></div>
-    </div>
-  </div>
-</template>
-
-<div id="searchResults"></div>
 
 
-<div id="party-details" class="container" style="display: none;">
-   <div class="header-row">
-    <a href="javascript:void(0);" onclick="goBackToSearch()" class="back-icon" title="Back to Search Results">
-    <i class="fas fa-arrow-left"></i>
-  </a>
-  
-    <a href="javascript:void(0);" onclick="editParty()" class="edit-icon" id="edit-btn" title="Edit">
-    <i class="fas fa-pen-to-square"></i>
-  </a>
-</div>
+    <!-- Modal Styles -->
+    <style>
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Semi-transparent background */
+        display: flex;
+        justify-content: center;
+        /* Center horizontally */
+        align-items: center;
+        /* Center vertically */
+        z-index: 1000;
+        /* Ensure it appears above other elements */
+      }
 
-  <div id="party-info" class="details-grid">
-  <div class="form-row">
-    <label>Party Code:</label>
-    <span id="party-code"></span>
-  </div>
-  <div class="form-row">
-    <label>Party Name:</label>
-    <span id="party-name"></span>
-  </div>
-  <div class="form-row">
-    <label>Address:</label>
-    <span id="party-address"></span>
-  </div>
-  <div class="form-row">
-    <label>City:</label>
-    <span id="party-city"></span>
-  </div>
-  <div class="form-row">
-    <label>Phone:</label>
-    <span id="party-phone"></span>
-  </div>
-  <div class="form-row">
-    <label>GST Number:</label>
-    <span id="party-gst"></span>
-  </div>
-  <div class="form-row">
-    <label>Rate Code:</label>
-    <span id="party-rate-code"></span>
-  </div>
+      .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        width: 400px;
+        /* Adjust width as needed */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Add a shadow for better visibility */
+      }
 
-<div class="form-buttons">
- <a href="javascript:void(0);" onclick="saveParty()" class="save-icon" id="save-btn" style="display: none;" title="Save">
-    <i class="fas fa-check"></i>
-  </a>
-  <a href="javascript:void(0);" onclick="cancelEdit()" class="cancel-icon" id="cancel-btn" style="display: none;" title="Cancel">
-    <i class="fas fa-xmark"></i>
-  </a>
-</div>
+      .modal-buttons {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+      }
 
-</div>
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
+      .btn-primary {
+        background-color: #007bff;
+        color: white;
+      }
 
-</div>
+      .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
 
-</div>
-
-</div>
+      .btn:hover {
+        opacity: 0.9;
+      }
+    </style>
 
     <script src="script.js"></script>
     <script src="auth.js"></script>
@@ -217,314 +338,548 @@ input[readonly] {
         window.location.href = "index.html"; // redirect back to main dashboard
       }
 
-         function clickEventHandler(e) {
-     if (e.target.matches(".select-button")) {
-       selectParty(e);
-     }
+      function clickEventHandler(e) {
+        if (e.target.matches(".select-button")) {
+          selectParty(e);
+        }
 
-   }
-
-   // For Search
-   function inputEventHandler(e) {
-     if (e.target.matches("#searchInput")) {
-       search();
-     }
-   }
-         function afterPageLoads() {
-		 
-     
-  const token = localStorage.getItem('token');
-             const email = localStorage.getItem("sessionEmail");
-    if (!token || !email) {
-       alert("Session expired. Please login again.");
-    window.location.href = 'index.html'; // Redirect to login
-    return;
-  }
-
-  setDataForSearch();
-  initialPartyInfo = document.getElementById("party-info").innerHTML;
-//  document.getElementById("party-info").innerHTML = '';
-  document.getElementById("searchResults").style.display = "none";
-  document.getElementById("mainContent").classList.remove("hidden");
-  document.getElementById("searchInput").focus();
- 
-   }
-
- function search() {
-  document.getElementById("searchResults").style.display = "block"; // or "flex"
-
-  var searchInput = document.getElementById("searchInput").value.toString().toLowerCase().trim();
-  var searchWords = searchInput.split(/\s+/); // trim by space
-  var searchColumns = [0, 1, 2, 5];
-
-  var resultsArray = searchInput === "" ? [] : data.filter(function(r) {
-    return searchWords.every(function(word) {
-      return searchColumns.some(function(colIndex) {
-        return r[colIndex].toString().toLowerCase().indexOf(word) !== -1;
-      });
-    });
-  });
-
-  var recordCount = searchInput === "" ? "" : "Record count: " + resultsArray.length;
-  
-  var searchResultsBox = document.getElementById("searchResults");
-  var templateBox = document.getElementById("rowTemplate");
-  var template = templateBox;
-
-  searchResultsBox.innerHTML = "";
-
-  resultsArray.forEach((r, index) => {
-    const clone = template.content.cloneNode(true);
-    clone.querySelector(".party-code").textContent = r[0];      // Party Code
-    clone.querySelector(".party-name").textContent = r[1];      // Name
-    clone.querySelector(".party-city").textContent = r[5];      // City
-
-    const card = clone.querySelector(".party-card");
-    card.dataset.partyCode = r[0];
-
-    // Alternate background
-    card.style.backgroundColor = index % 2 === 0 ? "#f9f9f9" : "#ffffff";
-
-    // Attach click event to each card
-card.addEventListener("click", function() {
-  showPartyDetails(r[0]);
-});
-
-    searchResultsBox.appendChild(clone);
-  });
-}
-
-
-function setDataForSearch() {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    alert('Not logged in. Please log in again.');
-    window.location.href = 'index.html';
-    return;
-  }
-
-  showLoader(); // Show loading indicator
-
-  const params = new URLSearchParams();
-  params.append('action', 'getPartyList');
-  params.append('token', token);
-
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: params.toString()
-  })
-  .then(response => response.json())
-  .then(result => {
-    if (result.success) {
-      data = result.data.slice();
-    } else {
-      alert("Unauthorized or error: " + result.message);
-      window.location.href = 'index.html';
-    }
-  })
-  .catch(error => {
-    alert("An error occurred while fetching data.");
-    console.error(error);
-  })
-  .finally(() => {
-    hideLoader(); // Always hide loader
-  });
-}
-
-
-// Go back to search results
-function goBackToSearch() {
-  document.getElementById("party-details").style.display = "none";
-  document.getElementById("searchResults").style.display = "block";
-  document.getElementById("searchInput").style.display = "block";
-}
-
-
-// Show party details (read-only view)
-function showPartyDetails(partyCode) {
-  const party = data.find(p => p[0] === partyCode);
-
-  if (party) {
-    document.getElementById("party-code").textContent = party[0];
-    document.getElementById("party-name").textContent = party[1]; // with M/s.
-    document.getElementById("party-name").dataset.rawName = party[1].replace(/^M\/s\.\s*/i, ""); // Save raw name
-    document.getElementById("party-address").textContent = party[2];
-    document.getElementById("party-city").textContent = party[5];
-    document.getElementById("party-phone").textContent = party[6];
-    document.getElementById("party-gst").textContent = party[12];
-    document.getElementById("party-rate-code").textContent = party[26];
-
-    document.getElementById("save-btn").style.display = "none";
-    document.getElementById("searchInput").style.display = "none";
-    document.getElementById("searchResults").style.display = "none";
-    document.getElementById("party-details").style.display = "block";
-  } else {
-    console.error("Party not found.");
-  }
-}
-
-// Enable editing (disable editing for name)
-function editParty() {
-  const editableFields = ["party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
-
-  // Disable editing for name, but keep it visible
-  const nameSpan = document.getElementById("party-name");
-  const nameText = nameSpan.textContent;
-  const newSpan = document.createElement("span");
-  newSpan.id = "party-name";
-  newSpan.textContent = nameText;
-  newSpan.dataset.rawName = nameSpan.dataset.rawName;
-  nameSpan.replaceWith(newSpan);
-
-  // Replace other fields with input
-  editableFields.forEach(id => {
-    const span = document.getElementById(id);
-    const value = span.textContent;
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = value;
-    input.id = id;
-    span.replaceWith(input);
-  });
-
-  document.getElementById("edit-btn").style.display = "none";
-  document.getElementById("save-btn").style.display = "inline-block";
-  document.getElementById("cancel-btn").style.display = "inline-block";
-}
-
-// Cancel editing and restore spans (including M/s. prefix)
-function cancelEdit() {
-  const editableFields = ["party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
-
-  editableFields.forEach(id => {
-    const input = document.getElementById(id);
-    if (input && input.tagName === "INPUT") {
-      const span = document.createElement("span");
-      span.id = id;
-      span.textContent = input.value;
-      input.replaceWith(span);
-    }
-  });
-
-  // Restore party name span (with M/s.)
-  const nameSpan = document.getElementById("party-name");
-  const newSpan = document.createElement("span");
-  newSpan.id = "party-name";
-  newSpan.textContent = "M/s. " + nameSpan.dataset.rawName;
-  newSpan.dataset.rawName = nameSpan.dataset.rawName;
-  nameSpan.replaceWith(newSpan);
-
-  document.getElementById("edit-btn").style.display = "inline-block";
-  document.getElementById("save-btn").style.display = "none";
-  document.getElementById("cancel-btn").style.display = "none";
-
-  goBackToSearch();
-}
-
-// Save updates to backend (send name without M/s.)
-function saveParty() {
-  const fieldMap = {
-    "party-address": "partyAddress",
-    "party-city": "partyCity",
-    "party-phone": "partyPhone",
-    "party-gst": "partyGST",
-    "party-rate-code": "partyRateCode"
-  };
-
-  const partyCode = document.getElementById("party-code").textContent;
-  const rawName = document.getElementById("party-name").dataset.rawName; // without M/s.
-
-  const params = new URLSearchParams();
-  params.append("action", "updateParty");
-  params.append("token", localStorage.getItem("token"));
-  params.append("partyCode", partyCode);
-  params.append("partyName", rawName); // Send without M/s.
-
-  for (const [inputId, paramKey] of Object.entries(fieldMap)) {
-    const input = document.getElementById(inputId);
-    const value = input.value;
-    params.append(paramKey, value);
-
-    // Replace with span
-    const span = document.createElement("span");
-    span.id = inputId;
-    span.textContent = value;
-    input.replaceWith(span);
-  }
-
-  // Replace name input with span (if needed)
-  const nameSpan = document.getElementById("party-name");
-  const newSpan = document.createElement("span");
-  newSpan.id = "party-name";
-  newSpan.textContent = "M/s. " + rawName;
-  newSpan.dataset.rawName = rawName;
-  nameSpan.replaceWith(newSpan);
-
-  document.getElementById("save-btn").style.display = "none";
-  document.getElementById("cancel-btn").style.display = "none";
-  document.getElementById("edit-btn").style.display = "inline-block";
-
-  const messageBox = document.getElementById("status-message");
-  showLoader();
-
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: params.toString()
-  })
-    .then(res => res.json())
-    .then(result => {
-      if (result.success) {
-        messageBox.style.color = "green";
-        messageBox.textContent = `Party "${partyCode}" updated successfully!`;
-        goBackToSearch();
-        document.getElementById("searchInput").value = "";
-        document.getElementById("searchResults").innerHTML = "";
-        setDataForSearch();
-      } else {
-        messageBox.style.color = "red";
-        messageBox.textContent = "Error updating: " + result.message;
       }
-    })
-    .catch(err => {
-      messageBox.style.color = "red";
-      messageBox.textContent = "Error: " + err.message;
-    })
-    .finally(() => {
-      hideLoader();
-      document.addEventListener("click", clearMessage);
-      document.addEventListener("input", clearMessage);
-    });
-}
 
-// Function to clear the message on user interaction
-function clearMessage() {
-  const messageBox = document.getElementById("status-message");
-  messageBox.textContent = ""; // Clear the message
-  document.removeEventListener("click", clearMessage);
-  document.removeEventListener("input", clearMessage);
-}
+      // For Search
+      // For Search
+      function inputEventHandler(e) {
+        if (e.target.matches("#searchInput")) {
+          const searchInput = e.target.value.trim();
+          const addButton = document.getElementById("add-btn");
+          const searchResults = document.getElementById("searchResults");
+
+          // Show Add Party icon only when search box is empty
+          if (searchInput === "") {
+            addButton.style.display = "inline-block";
+            searchResults.style.display = "none"; // Hide search results when input is empty
+          } else {
+            addButton.style.display = "none";
+            searchResults.style.display = "block"; // Show search results when input has data
+            search(); // Perform the search
+          }
+        }
+      }
+
+      function afterPageLoads() {
+        const token = localStorage.getItem("token");
+        const email = localStorage.getItem("sessionEmail");
+
+        if (!token || !email) {
+          alert("Session expired. Please login again.");
+          window.location.href = "index.html"; // Redirect to login
+          return;
+        }
+
+        setDataForSearch();
+        initialPartyInfo = document.getElementById("party-info").innerHTML;
+
+        // Hide search results and show main content
+        document.getElementById("searchResults").style.display = "none";
+        document.getElementById("mainContent").classList.remove("hidden");
+
+        // Check if search input is blank and toggle Add Party icon
+        const searchInput = document.getElementById("searchInput").value.trim();
+        const addButton = document.getElementById("add-btn");
+        if (searchInput === "") {
+          addButton.style.display = "inline-block"; // Show Add Party icon
+        } else {
+          addButton.style.display = "none"; // Hide Add Party icon
+        }
+
+        // Focus on the search input
+        document.getElementById("searchInput").focus();
+      }
+
+      function search() {
+        document.getElementById("searchResults").style.display = "block"; // or "flex"
+
+        var searchInput = document.getElementById("searchInput").value.toString().toLowerCase().trim();
+        var searchWords = searchInput.split(/\s+/); // trim by space
+        var searchColumns = [0, 1, 2, 5];
+
+        var resultsArray = searchInput === "" ? [] : data.filter(function (r) {
+          return searchWords.every(function (word) {
+            return searchColumns.some(function (colIndex) {
+              return r[colIndex].toString().toLowerCase().indexOf(word) !== -1;
+            });
+          });
+        });
+
+        var recordCount = searchInput === "" ? "" : "Record count: " + resultsArray.length;
+
+        var searchResultsBox = document.getElementById("searchResults");
+        var templateBox = document.getElementById("rowTemplate");
+        var template = templateBox;
+
+        searchResultsBox.innerHTML = "";
+
+        resultsArray.forEach((r, index) => {
+          const clone = template.content.cloneNode(true);
+          clone.querySelector(".party-code").textContent = r[0];      // Party Code
+          clone.querySelector(".party-name").textContent = r[1];      // Name
+          clone.querySelector(".party-city").textContent = r[5];      // City
+
+          const card = clone.querySelector(".party-card");
+          card.dataset.partyCode = r[0];
+
+          // Alternate background
+          card.style.backgroundColor = index % 2 === 0 ? "#f9f9f9" : "#ffffff";
+
+          // Attach click event to each card
+          card.addEventListener("click", function () {
+            showPartyDetails(r[0]);
+          });
+
+          searchResultsBox.appendChild(clone);
+        });
+      }
 
 
-   // For Search 
-   document.getElementById("app").addEventListener("input", inputEventHandler);
-   document.getElementById("app").addEventListener("click", clickEventHandler);
-                          
-         document.addEventListener("DOMContentLoaded", afterPageLoads);
+      function setDataForSearch() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('Not logged in. Please log in again.');
+          window.location.href = 'index.html';
+          return;
+        }
 
-      
+        showLoader(); // Show loading indicator
+
+        const params = new URLSearchParams();
+        params.append('action', 'getPartyList');
+        params.append('token', token);
+
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: params.toString()
+        })
+          .then(response => response.json())
+          .then(result => {
+            if (result.success) {
+              data = result.data.slice();
+            } else {
+              alert("Unauthorized or error: " + result.message);
+              window.location.href = 'index.html';
+            }
+          })
+          .catch(error => {
+            alert("An error occurred while fetching data.");
+            console.error(error);
+          })
+          .finally(() => {
+            hideLoader(); // Always hide loader
+          });
+      }
+
+
+      // Go back to search results
+      function goBackToSearch() {
+        document.getElementById("party-details").style.display = "none";
+        document.getElementById("searchResults").style.display = "block";
+        document.getElementById("searchInput").style.display = "block";
+        // Show Add Party button only if search box is empty
+        const searchInput = document.getElementById("searchInput").value.trim();
+        if (searchInput === "") {
+          document.getElementById("add-btn").style.display = "inline-block";
+        }
+      }
+
+
+      // Show party details (read-only view)
+      function showPartyDetails(partyCode) {
+        const party = data.find(p => p[0] === partyCode);
+
+        if (party) {
+          document.getElementById("party-code").textContent = party[0];
+          document.getElementById("party-name").textContent = party[1]; // with M/s.
+          document.getElementById("party-name").dataset.rawName = party[1].replace(/^M\/s\.\s*/i, ""); // Save raw name
+          document.getElementById("party-address").textContent = party[2];
+          document.getElementById("party-city").textContent = party[5];
+          document.getElementById("party-phone").textContent = party[6];
+          document.getElementById("party-gst").textContent = party[12];
+          document.getElementById("party-rate-code").textContent = party[26];
+
+          document.getElementById("back-btn").style.display = "block";
+          document.getElementById("save-btn").style.display = "none";
+          document.getElementById("searchInput").style.display = "none";
+          document.getElementById("searchResults").style.display = "none";
+          document.getElementById("party-details").style.display = "block";
+        } else {
+          console.error("Party not found.");
+        }
+      }
+
+      // Enable editing (disable editing for name)
+      function editParty() {
+        const editableFields = ["party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+
+        // Disable editing for name, but keep it visible
+        const nameSpan = document.getElementById("party-name");
+        const nameText = nameSpan.textContent;
+        const newSpan = document.createElement("span");
+        newSpan.id = "party-name";
+        newSpan.textContent = nameText;
+        newSpan.dataset.rawName = nameSpan.dataset.rawName;
+        nameSpan.replaceWith(newSpan);
+
+        // Replace other fields with input
+        editableFields.forEach(id => {
+          const span = document.getElementById(id);
+          const value = span.textContent;
+          const input = document.createElement("input");
+          input.type = "text";
+          input.value = value;
+          input.id = id;
+          span.replaceWith(input);
+        });
+
+        document.getElementById("back-btn").style.display = "none";
+        document.getElementById("edit-btn").style.display = "none";
+        document.getElementById("save-btn").style.display = "inline-block";
+        document.getElementById("cancel-btn").style.display = "inline-block";
+      }
+
+      // Cancel editing and restore spans (including M/s. prefix)
+      function cancelEdit() {
+        const editableFields = ["party-address", "party-city", "party-phone", "party-gst", "party-rate-code"];
+
+        editableFields.forEach(id => {
+          const input = document.getElementById(id);
+          if (input && input.tagName === "INPUT") {
+            const span = document.createElement("span");
+            span.id = id;
+            span.textContent = input.value;
+            input.replaceWith(span);
+          }
+        });
+
+        // Restore party name span (with M/s.)
+        const nameSpan = document.getElementById("party-name");
+        const newSpan = document.createElement("span");
+        newSpan.id = "party-name";
+        newSpan.textContent = "M/s. " + nameSpan.dataset.rawName;
+        newSpan.dataset.rawName = nameSpan.dataset.rawName;
+        nameSpan.replaceWith(newSpan);
+
+        document.getElementById("edit-btn").style.display = "inline-block";
+        document.getElementById("save-btn").style.display = "none";
+        document.getElementById("cancel-btn").style.display = "none";
+
+        goBackToSearch();
+      }
+
+      // Save updates to backend (send name without M/s.)
+      function saveParty() {
+        const fieldMap = {
+          "party-address": "partyAddress",
+          "party-city": "partyCity",
+          "party-phone": "partyPhone",
+          "party-gst": "partyGST",
+          "party-rate-code": "partyRateCode"
+        };
+
+        const partyCode = document.getElementById("party-code").textContent;
+        const rawName = document.getElementById("party-name").dataset.rawName; // without M/s.
+
+        const params = new URLSearchParams();
+        params.append("action", "updateParty");
+        params.append("token", localStorage.getItem("token"));
+        params.append("partyCode", partyCode);
+        params.append("partyName", rawName); // Send without M/s.
+
+        for (const [inputId, paramKey] of Object.entries(fieldMap)) {
+          const input = document.getElementById(inputId);
+          const value = input.value;
+          params.append(paramKey, value);
+
+          // Replace with span
+          const span = document.createElement("span");
+          span.id = inputId;
+          span.textContent = value;
+          input.replaceWith(span);
+        }
+
+        // Replace name input with span (if needed)
+        const nameSpan = document.getElementById("party-name");
+        const newSpan = document.createElement("span");
+        newSpan.id = "party-name";
+        newSpan.textContent = "M/s. " + rawName;
+        newSpan.dataset.rawName = rawName;
+        nameSpan.replaceWith(newSpan);
+
+        document.getElementById("save-btn").style.display = "none";
+        document.getElementById("cancel-btn").style.display = "none";
+        document.getElementById("edit-btn").style.display = "inline-block";
+
+        const messageBox = document.getElementById("status-message");
+        messageBox.textContent = ""; // Clear previous messages
+
+        if (!document.getElementById("party-city").textContent) {
+          messageBox.style.color = "red";
+          messageBox.textContent = "City must be entered";
+          editParty();
+          return;
+        }
+
+        if (!document.getElementById("party-rate-code").textContent) {
+          messageBox.style.color = "red";
+          messageBox.textContent = "Rate Code must be entered";
+          editParty();
+          return;
+        }
+
+
+
+        showLoader();
+
+        fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: params.toString()
+        })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              messageBox.style.color = "green";
+              messageBox.textContent = `Party "${partyCode}" updated successfully!`;
+              goBackToSearch();
+              document.getElementById("searchInput").value = "";
+              document.getElementById("searchResults").innerHTML = "";
+              setDataForSearch();
+            } else if (result.duplicateFound) {
+              // Show confirmation modal for duplicate
+              showDuplicateConfirmation(() => {
+                params.append("confirmDuplicate", true);
+                showLoader();
+                fetch(SCRIPT_URL, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                  body: params.toString()
+                })
+                  .then(res => res.json())
+                  .then(result => {
+                    if (result.success) {
+                      messageBox.style.color = "green";
+                      messageBox.textContent = `Party "${partyCode}" updated successfully!`;
+                      goBackToSearch();
+                      document.getElementById("searchInput").value = "";
+                      document.getElementById("searchResults").innerHTML = "";
+                      setDataForSearch();
+                    } else {
+                      messageBox.style.color = "red";
+                      messageBox.textContent = "Error updating: " + result.message;
+                    }
+                  })
+                  .catch(err => {
+                    messageBox.style.color = "red";
+                    messageBox.textContent = "Error: " + err.message;
+                  })
+                  .finally(() => {
+                    hideLoader();
+                    document.addEventListener("click", clearMessage);
+                    document.addEventListener("input", clearMessage);
+                  });
+              });
+            } else {
+              messageBox.style.color = "red";
+              messageBox.textContent = "Error updating: " + result.message;
+            }
+          })
+          .catch(err => {
+            messageBox.style.color = "red";
+            messageBox.textContent = "Error: " + err.message;
+          })
+          .finally(() => {
+            hideLoader();
+            document.addEventListener("click", clearMessage);
+            document.addEventListener("input", clearMessage);
+          });
+      }
+
+      // Function to clear the message on user interaction
+      function clearMessage() {
+        const messageBox = document.getElementById("status-message");
+        messageBox.textContent = ""; // Clear the message
+        document.removeEventListener("click", clearMessage);
+        document.removeEventListener("input", clearMessage);
+      }
+
+
+      // Show Add Party Form
+      function showAddPartyForm() {
+
+        // Reset the form fields
+        document.getElementById("new-party-name").value = "";
+        document.getElementById("new-party-address").value = "";
+        document.getElementById("new-party-city").value = "";
+        document.getElementById("new-party-phone").value = "";
+        document.getElementById("new-party-gst").value = "";
+        document.getElementById("new-party-rate-code").value = "";
+
+
+        document.getElementById("searchResults").style.display = "none";
+        document.getElementById("add-party-form").style.display = "block";
+        document.getElementById("searchInput").style.display = "none";
+        document.getElementById("add-btn").style.display = "none"; // Hide Add Party button
+      }
+
+      // Cancel Add Party
+      function cancelAddParty() {
+        document.getElementById("add-party-form").style.display = "none";
+        document.getElementById("searchResults").style.display = "block";
+        document.getElementById("searchInput").style.display = "block";
+        // Show Add Party button only if search box is empty
+        const searchInput = document.getElementById("searchInput").value.trim();
+        if (searchInput === "") {
+          document.getElementById("add-btn").style.display = "inline-block";
+        }
+      }
+
+      // Save New Party
+      function saveNewParty() {
+        const partyName = document.getElementById("new-party-name").value.trim();
+        const partyAddress = document.getElementById("new-party-address").value.trim();
+        const partyCity = document.getElementById("new-party-city").value.trim();
+        const partyPhone = document.getElementById("new-party-phone").value.trim();
+        const partyGST = document.getElementById("new-party-gst").value.trim();
+        const partyRateCode = document.getElementById("new-party-rate-code").value.trim();
+
+        const messageBox = document.getElementById("status-message");
+        messageBox.textContent = ""; // Clear previous messages
+
+        // Validate Party Name
+        if (!partyName || !/^[A-Za-z]/.test(partyName)) {
+          messageBox.style.color = "red";
+          messageBox.textContent = "Party Name must start with an alphabet and cannot begin with 'M/s.'";
+          return;
+        }
+
+        if (!partyCity) {
+          messageBox.style.color = "red";
+          messageBox.textContent = "City must be entered";
+          return;
+        }
+
+        if (!partyRateCode) {
+          messageBox.style.color = "red";
+          messageBox.textContent = "Rate Code must be entered";
+          return;
+        }
+
+        const params = new URLSearchParams();
+        params.append("action", "addParty");
+        params.append("token", localStorage.getItem("token"));
+        params.append("partyName", partyName);
+        params.append("partyAddress", partyAddress);
+        params.append("partyCity", partyCity);
+        params.append("partyPhone", partyPhone);
+        params.append("partyGST", partyGST);
+        params.append("partyRateCode", partyRateCode);
+
+        showLoader();
+
+        fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: params.toString()
+        })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              messageBox.style.color = "green";
+              messageBox.textContent = `Party "${result.partyCode}" added successfully!`;
+              cancelAddParty();
+              setDataForSearch();
+            } else if (result.duplicateFound) {
+              // Show confirmation modal for duplicate
+              showDuplicateConfirmation(() => {
+                params.append("confirmDuplicate", true);
+                showLoader();
+                fetch(SCRIPT_URL, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                  body: params.toString()
+                })
+                  .then(res => res.json())
+                  .then(result => {
+                    if (result.success) {
+                      messageBox.style.color = "green";
+                      messageBox.textContent = `Party "${result.partyCode}" added successfully!`;
+                      cancelAddParty();
+                      setDataForSearch();
+                    } else {
+                      messageBox.style.color = "red";
+                      messageBox.textContent = "Error adding party: " + result.message;
+                    }
+                  })
+                  .catch(err => {
+                    messageBox.style.color = "red";
+                    messageBox.textContent = "Error: " + err.message;
+                  })
+                  .finally(() => {
+                    hideLoader();
+                    document.addEventListener("click", clearMessage);
+                    document.addEventListener("input", clearMessage);
+                  });
+              });
+            } else {
+              messageBox.style.color = "red";
+              messageBox.textContent = "Error adding party: " + result.message;
+            }
+          })
+          .catch(err => {
+            messageBox.style.color = "red";
+            messageBox.textContent = "Error: " + err.message;
+          })
+          .finally(() => {
+            hideLoader();
+            document.addEventListener("click", clearMessage);
+            document.addEventListener("input", clearMessage);
+          });
+      }
+
+      // Show Duplicate Confirmation Modal
+      function showDuplicateConfirmation(onConfirm) {
+        const modal = document.getElementById("duplicateConfirmationModal");
+        modal.style.display = "block";
+
+        // Handle Confirm
+        document.getElementById("confirmDuplicate").onclick = function () {
+          modal.style.display = "none";
+          onConfirm();
+        };
+
+        // Handle Cancel
+        document.getElementById("cancelDuplicate").onclick = function () {
+          modal.style.display = "none";
+        };
+      }
+
+      // For Search 
+      document.getElementById("app").addEventListener("input", inputEventHandler);
+      document.getElementById("app").addEventListener("click", clickEventHandler);
+
+      document.addEventListener("DOMContentLoaded", afterPageLoads);
+
+
     </script>
 
-<!--Place this after script.js to show Login upon click of Logout from non index page -->
-	<script>
-  function showLogin() {
-    window.location.href = 'index.html';
-  }
-</script>
+    <!--Place this after script.js to show Login upon click of Logout from non index page -->
+    <script>
+      function showLogin() {
+        window.location.href = 'index.html';
+      }
+    </script>
 
-	
-  </body>
+
+</body>
+
 </html>
