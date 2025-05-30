@@ -454,7 +454,7 @@
         params.append('action', 'getPartyList');
         params.append('token', token);
 
-        fetch(ENV_CONFIG.SCRIPT_URL, {
+        fetch(ENV_CONFIG.SCRIPT_URL) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -640,7 +640,7 @@
 
         showLoader();
 
-        fetch(ENV_CONFIG.SCRIPT_URL, {
+        fetch(ENV_CONFIG.SCRIPT_URL) {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: params.toString()
@@ -659,7 +659,7 @@
               showDuplicateConfirmation(() => {
                 params.append("confirmDuplicate", true);
                 showLoader();
-                fetch(ENV_CONFIG.SCRIPT_URL, {
+                fetch(ENV_CONFIG.SCRIPT_URL) {
                   method: "POST",
                   headers: { "Content-Type": "application/x-www-form-urlencoded" },
                   body: params.toString()
@@ -786,7 +786,7 @@
 
         showLoader();
 
-        fetch(ENV_CONFIG.SCRIPT_URL, {
+        fetch(ENV_CONFIG.SCRIPT_URL) {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: params.toString()
@@ -803,7 +803,7 @@
               showDuplicateConfirmation(() => {
                 params.append("confirmDuplicate", true);
                 showLoader();
-                fetch(ENV_CONFIG.SCRIPT_URL, {
+                fetch(ENV_CONFIG.SCRIPT_URL) {
                   method: "POST",
                   headers: { "Content-Type": "application/x-www-form-urlencoded" },
                   body: params.toString()
