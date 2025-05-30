@@ -525,11 +525,9 @@
           const canEdit = (role === 'Editor' || role === 'Admin');
           console.log(role);
           console.log(canEdit);
-          if (role === 'Editor' || role === 'Admin') {
-            document.getElementById("edit-btn").style.display = "inline-block";
-          } else {
-            document.getElementById("edit-btn").style.display = "none";
-          }
+
+            document.getElementById("edit-btn").style.display = canEdit ? "inline-block" : "none";
+
         } else {
           console.error("Party not found.");
         }
