@@ -523,7 +523,9 @@
 
           const role = localStorage.getItem("role");
           const canEdit = (role === 'Editor' || role === 'Admin');
-          document.getElementById("edit-btn")?.style.display = canEdit ? 'inline-block' : 'none';
+          console.log(role);
+          console.log(canEdit);
+          document.getElementById("edit-btn")?.style.display = canEdit ? "inline-block" : "none";
           
         } else {
           console.error("Party not found.");
