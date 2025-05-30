@@ -75,6 +75,7 @@ function login() {
       if (response.success) {
         localStorage.setItem('sessionEmail', response.email);
         localStorage.setItem('token', response.token);
+        localStorage.setItem('role', response.role);
         showDashboard(response.email);
       } else {
         document.getElementById('error').innerText = response.message || 'Login failed.';
