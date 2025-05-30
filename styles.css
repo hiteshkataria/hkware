@@ -213,7 +213,8 @@ button:hover {
 }
 
 .save-icon,
-.edit-icon {
+.edit-icon,
+.add-party-icon {
   color: #008000;
 }
 
@@ -224,7 +225,8 @@ button:hover {
 .back-icon:hover,
 .edit-icon:hover,
 .save-icon:hover,
-.cancel-icon:hover {
+.cancel-icon:hover,
+.add-party-icon:hover {
 
   cursor: pointer;
   transform: scale(1.3);
