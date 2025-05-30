@@ -20,6 +20,7 @@ window.onload = function () {
         } else {
           localStorage.removeItem('sessionEmail');
           localStorage.removeItem('token');
+	  localStorage.removeItem('role');
           showLogin();
         }
       })
@@ -107,11 +108,13 @@ function logout() {
     .then(() => {
       localStorage.removeItem('sessionEmail');
       localStorage.removeItem('token'); // Optional: clean token as well
+      localStorage.removeItem('role');
       showLogin();
     })
     .catch(() => {
       localStorage.removeItem('sessionEmail');
       localStorage.removeItem('token');
+      localStorage.removeItem('role');
       showLogin();
     })
     .finally(() => {
