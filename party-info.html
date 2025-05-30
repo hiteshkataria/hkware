@@ -369,6 +369,7 @@
       function afterPageLoads() {
         const token = localStorage.getItem("token");
         const email = localStorage.getItem("sessionEmail");
+        const role = localStorage.getItem("role");
 
         if (!token || !email) {
           alert("Session expired. Please login again.");
@@ -386,7 +387,7 @@
         // Check if search input is blank and toggle Add Party icon
         const searchInput = document.getElementById("searchInput").value.trim();
         const addButton = document.getElementById("add-btn");
-        if (searchInput === "") {
+        if (searchInput === "" && (role === 'Editor' || role === 'Admin')) {
           addButton.style.display = "inline-block"; // Show Add Party icon
         } else {
           addButton.style.display = "none"; // Hide Add Party icon
