@@ -354,9 +354,13 @@
           const addButton = document.getElementById("add-btn");
           const searchResults = document.getElementById("searchResults");
 
+          const role = localStorage.getItem("role");
+
           // Show Add Party icon only when search box is empty
           if (searchInput === "") {
+            if (role === 'Editor' || role === 'Admin') {
             addButton.style.display = "inline-block";
+            }
             searchResults.style.display = "none"; // Hide search results when input is empty
           } else {
             addButton.style.display = "none";
@@ -487,9 +491,11 @@
         document.getElementById("party-details").style.display = "none";
         document.getElementById("searchResults").style.display = "block";
         document.getElementById("searchInput").style.display = "block";
+
+        const role = localStorage.getItem("role");
         // Show Add Party button only if search box is empty
         const searchInput = document.getElementById("searchInput").value.trim();
-        if (searchInput === "") {
+        if (searchInput === "" && (role === 'Editor' || role === 'Admin')) {
           document.getElementById("add-btn").style.display = "inline-block";
         }
       }
