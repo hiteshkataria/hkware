@@ -520,6 +520,11 @@
           document.getElementById("searchInput").style.display = "none";
           document.getElementById("searchResults").style.display = "none";
           document.getElementById("party-details").style.display = "block";
+
+          const role = localStorage.getItem("role");
+          const canEdit = (role === 'Editor' || role === 'Admin');
+          document.getElementById("edit-btn")?.style.display = canEdit ? 'inline-block' : 'none';
+          
         } else {
           console.error("Party not found.");
         }
